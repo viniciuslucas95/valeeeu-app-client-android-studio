@@ -25,7 +25,13 @@ class MainActivity : ComponentActivity() {
                         true
                     )
 
-                    HomeCard(profile, HomeCardSize.BIG)
+                    HomeCard(profile, HomeCardSize.BIG,
+                        {
+                            println("Card pressed...")
+                        },
+                        {
+                            println("Favorite pressed...")
+                        })
                 }
             }
         }

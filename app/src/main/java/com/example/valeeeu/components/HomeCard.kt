@@ -1,12 +1,14 @@
 package com.example.valeeeu.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -17,10 +19,16 @@ import com.example.valeeeu.ui.theme.*
 import kotlin.math.roundToInt
 
 @Composable
-fun HomeCard(profile: SummaryProfile, size: HomeCardSize = HomeCardSize.NORMAL) {
+fun HomeCard(
+    profile: SummaryProfile,
+    size: HomeCardSize = HomeCardSize.NORMAL,
+    onCardClick: () -> Unit,
+    onFavoriteClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .width(if (size == HomeCardSize.BIG) HomeCardPictureBigWidth else HomeCardPictureNormalWidth)
+            .clickable { onCardClick() }
     ) {
         Column {
             Image(
@@ -103,20 +111,14 @@ fun HomeCard(profile: SummaryProfile, size: HomeCardSize = HomeCardSize.NORMAL) 
                                     .align(CenterVertically)
                             )
 
-                            Divider(
-                                modifier = Modifier
-                                    .width(8.dp), thickness = 0.dp
-                            )
+                            Spacer(modifier = Modifier.width(8.dp))
 
                             Text(
                                 text = formatRatingToString(profile.averageRating),
                                 style = MaterialTheme.typography.caption
                             )
 
-                            Divider(
-                                modifier = Modifier
-                                    .width(8.dp), thickness = 0.dp
-                            )
+                            Spacer(modifier = Modifier.width(8.dp))
 
                             Icon(
                                 painter = painterResource(R.drawable.ic_circle),
@@ -128,10 +130,7 @@ fun HomeCard(profile: SummaryProfile, size: HomeCardSize = HomeCardSize.NORMAL) 
                                 tint = LightGray
                             )
 
-                            Divider(
-                                modifier = Modifier
-                                    .width(8.dp), thickness = 0.dp
-                            )
+                            Spacer(modifier = Modifier.width(8.dp))
 
                             Text(
                                 text = formatDistanceToString(profile.distance),
@@ -148,16 +147,13 @@ fun HomeCard(profile: SummaryProfile, size: HomeCardSize = HomeCardSize.NORMAL) 
                     }
 
                     Row(modifier = Modifier.padding(0.dp, 4.dp, 4.dp, 0.dp)) {
-                        Divider(
-                            thickness = 0.dp,
-                            modifier = Modifier
-                                .weight(1f)
-                        )
+                        Spacer(modifier = Modifier.weight(1f))
 
                         Card(
                             shape = RoundedCornerShape(24.dp),
                             elevation = 0.dp,
-                            backgroundColor = White.copy(alpha = 0f)
+                            backgroundColor = White.copy(alpha = 0f),
+                            modifier = Modifier.clip(RoundedCornerShape(24.dp)).clickable { onFavoriteClick() }
                         ) {
                             Image(
                                 painter = painterResource(if (profile.isFavorited) R.drawable.ic_favorite_toggled else R.drawable.ic_favorite),
