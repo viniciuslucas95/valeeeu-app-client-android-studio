@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
                         "Carlos Antônio",
                         "Barbearia",
                         "Cortamos todos os tipos de cabelo, desde os cortes mais modernos até os mais convencionais. Conosco o cliente sempre sai satisfeito, aquele cabelo sempre estiloso e bonito!",
-                        3.5f,
+                        3.7f,
                         800f,
                         true
                     )

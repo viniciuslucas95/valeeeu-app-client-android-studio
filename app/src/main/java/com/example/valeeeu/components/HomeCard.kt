@@ -56,60 +56,23 @@ fun HomeCard(
                         Row(modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 16.dp)) {
                             val roundedRating = "%.1f".format(profile.averageRating).toFloat()
 
-                            Image(
-                                painter = painterResource(
-                                    id = R.drawable.ic_rating_full
-                                ),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .height(12.dp)
-                                    .width(12.dp)
-                                    .align(CenterVertically)
-                            )
+                            for (i in 1..5) {
+                                var drawable = selectStarIcon(roundedRating, i)
 
-                            Image(
-                                painter = painterResource(
-                                    id = selectStarIcon(roundedRating, 2)
-                                ),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .height(12.dp)
-                                    .width(12.dp)
-                                    .align(CenterVertically)
-                            )
+                                if (i == 1) {
+                                    drawable = R.drawable.ic_rating_full
+                                }
 
-                            Image(
-                                painter = painterResource(
-                                    id = selectStarIcon(roundedRating, 3)
-                                ),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .height(12.dp)
-                                    .width(12.dp)
-                                    .align(CenterVertically)
-                            )
-
-                            Image(
-                                painter = painterResource(
-                                    id = selectStarIcon(roundedRating, 4)
-                                ),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .height(12.dp)
-                                    .width(12.dp)
-                                    .align(CenterVertically)
-                            )
-
-                            Image(
-                                painter = painterResource(
-                                    id = selectStarIcon(roundedRating, 5)
-                                ),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .height(12.dp)
-                                    .width(12.dp)
-                                    .align(CenterVertically)
-                            )
+                                Image(
+                                    painter = painterResource(
+                                        id = drawable
+                                    ),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(12.dp, 12.dp)
+                                        .align(CenterVertically)
+                                )
+                            }
 
                             Spacer(modifier = Modifier.width(8.dp))
 
@@ -124,8 +87,7 @@ fun HomeCard(
                                 painter = painterResource(R.drawable.ic_circle),
                                 contentDescription = null,
                                 modifier = Modifier
-                                    .height(3.dp)
-                                    .width(3.dp)
+                                    .size(3.dp, 3.dp)
                                     .align(CenterVertically),
                                 tint = LightGray
                             )
@@ -153,7 +115,9 @@ fun HomeCard(
                             shape = RoundedCornerShape(24.dp),
                             elevation = 0.dp,
                             backgroundColor = White.copy(alpha = 0f),
-                            modifier = Modifier.clip(RoundedCornerShape(24.dp)).clickable { onFavoriteClick() }
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(24.dp))
+                                .clickable { onFavoriteClick() }
                         ) {
                             Image(
                                 painter = painterResource(if (profile.isFavorited) R.drawable.ic_favorite_toggled else R.drawable.ic_favorite),
