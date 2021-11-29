@@ -1,0 +1,202 @@
+package com.example.valeeeu.components
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import com.example.valeeeu.R
+import com.example.valeeeu.models.SummaryProfile
+import com.example.valeeeu.ui.theme.*
+import kotlin.math.roundToInt
+
+@Composable
+fun HomeCard(profile: SummaryProfile, size: HomeCardSize = HomeCardSize.NORMAL) {
+    Card(
+        modifier = Modifier
+            .width(if (size == HomeCardSize.BIG) HomeCardPictureBigWidth else HomeCardPictureNormalWidth)
+    ) {
+        Column {
+            Image(
+                painter = painterResource(id = R.drawable.barber_shop),
+                contentDescription = null,
+                modifier = Modifier
+                    .height(if (size == HomeCardSize.BIG) HomeCardPictureBigHeight else HomeCardPictureNormalHeight),
+                contentScale = ContentScale.Crop
+            )
+
+            Column(Modifier.padding(16.dp, 0.dp, 0.dp, 0.dp)) {
+                Box {
+                    Column {
+                        Text(
+                            text = profile.job,
+                            style = MaterialTheme.typography.overline,
+                            modifier = Modifier.padding(0.dp, 22.dp, 0.dp, 12.dp)
+                        )
+
+                        Text(
+                            text = profile.name, style = MaterialTheme.typography.h5,
+                            modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 4.dp)
+                        )
+
+                        Row(modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 16.dp)) {
+                            val roundedRating = "%.1f".format(profile.averageRating).toFloat()
+
+                            Image(
+                                painter = painterResource(
+                                    id = R.drawable.ic_rating_full
+                                ),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .height(12.dp)
+                                    .width(12.dp)
+                                    .align(CenterVertically)
+                            )
+
+                            Image(
+                                painter = painterResource(
+                                    id = selectStarIcon(roundedRating, 2)
+                                ),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .height(12.dp)
+                                    .width(12.dp)
+                                    .align(CenterVertically)
+                            )
+
+                            Image(
+                                painter = painterResource(
+                                    id = selectStarIcon(roundedRating, 3)
+                                ),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .height(12.dp)
+                                    .width(12.dp)
+                                    .align(CenterVertically)
+                            )
+
+                            Image(
+                                painter = painterResource(
+                                    id = selectStarIcon(roundedRating, 4)
+                                ),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .height(12.dp)
+                                    .width(12.dp)
+                                    .align(CenterVertically)
+                            )
+
+                            Image(
+                                painter = painterResource(
+                                    id = selectStarIcon(roundedRating, 5)
+                                ),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .height(12.dp)
+                                    .width(12.dp)
+                                    .align(CenterVertically)
+                            )
+
+                            Divider(
+                                modifier = Modifier
+                                    .width(8.dp), thickness = 0.dp
+                            )
+
+                            Text(
+                                text = formatRatingToString(profile.averageRating),
+                                style = MaterialTheme.typography.caption
+                            )
+
+                            Divider(
+                                modifier = Modifier
+                                    .width(8.dp), thickness = 0.dp
+                            )
+
+                            Icon(
+                                painter = painterResource(R.drawable.ic_circle),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .height(3.dp)
+                                    .width(3.dp)
+                                    .align(CenterVertically),
+                                tint = LightGray
+                            )
+
+                            Divider(
+                                modifier = Modifier
+                                    .width(8.dp), thickness = 0.dp
+                            )
+
+                            Text(
+                                text = formatDistanceToString(profile.distance),
+                                style = MaterialTheme.typography.caption
+                            )
+                        }
+
+                        Text(
+                            text = profile.description, style = MaterialTheme.typography.body1,
+                            maxLines = 3,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.padding(0.dp, 0.dp, 16.dp, 12.dp)
+                        )
+                    }
+
+                    Row(modifier = Modifier.padding(0.dp, 4.dp, 4.dp, 0.dp)) {
+                        Divider(
+                            thickness = 0.dp,
+                            modifier = Modifier
+                                .weight(1f)
+                        )
+
+                        Card(
+                            shape = RoundedCornerShape(24.dp),
+                            elevation = 0.dp,
+                            backgroundColor = White.copy(alpha = 0f)
+                        ) {
+                            Image(
+                                painter = painterResource(if (profile.isFavorited) R.drawable.ic_favorite_toggled else R.drawable.ic_favorite),
+                                contentDescription = null,
+                                modifier = Modifier.padding(12.dp)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+fun selectStarIcon(rating: Float, range: Int): Int {
+    if (rating >= range) {
+        return R.drawable.ic_rating_full
+    }
+
+
+    if (rating < range && rating >= range - 0.5f) {
+        return R.drawable.ic_rating_half
+    }
+
+    return R.drawable.ic_rating_empty
+}
+
+fun formatRatingToString(rating: Float): String {
+    return "%.1f".format(rating)
+}
+
+fun formatDistanceToString(distance: Float): String {
+    if (distance > 1000) {
+        return "%.1f".format(distance / 1000) + " km"
+    }
+
+    return ((distance / 100).roundToInt() * 100).toString() + " m"
+}
+
+enum class HomeCardSize {
+    BIG, NORMAL
+}
