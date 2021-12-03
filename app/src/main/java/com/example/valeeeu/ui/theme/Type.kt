@@ -58,7 +58,7 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         letterSpacing = 0.5f.sp,
-        color = Gray
+        color = Gray600
     ),
     body2 = TextStyle(
         fontFamily = FontFamily.Default,
@@ -71,14 +71,14 @@ val Typography = Typography(
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         letterSpacing = 1.25f.sp,
-        color = Blue
+        color = Blue500
     ),
     caption = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         letterSpacing = 0.4f.sp,
-        color = LightGray
+        color = Gray500
     ),
     overline = TextStyle(
         fontFamily = FontFamily.Default,

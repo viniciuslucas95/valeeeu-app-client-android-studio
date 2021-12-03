@@ -5,33 +5,37 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import com.example.valeeeu.components.HomeCard
-import com.example.valeeeu.components.HomeCardSize
-import com.example.valeeeu.models.SummaryProfile
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.valeeeu.repositories.FakeSummaryProfileRepository
+import com.example.valeeeu.repositories.FakeTagRepository
+import com.example.valeeeu.screens.HomeScreen
 import com.example.valeeeu.ui.theme.ValeeeuTheme
+import com.example.valeeeu.viewModels.HomeViewModel
 
 class MainActivity : ComponentActivity() {
+    private val summaryProfileRepository = FakeSummaryProfileRepository()
+    private val tagRepository = FakeTagRepository()
+    private val homeViewModel = HomeViewModel(summaryProfileRepository, tagRepository)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ValeeeuTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    val profile = SummaryProfile(
-                        "Carlos Antônio",
-                        "Barbearia",
-                        "Cortamos todos os tipos de cabelo, desde os cortes mais modernos até os mais convencionais. Conosco o cliente sempre sai satisfeito, aquele cabelo sempre estiloso e bonito!",
-                        3.7f,
-                        800f,
-                        true
-                    )
+                    val navController = rememberNavController()
 
-                    HomeCard(profile, HomeCardSize.BIG,
-                        {
-                            println("Card pressed...")
-                        },
-                        {
-                            println("Favorite pressed...")
-                        })
+                    NavHost(navController = navController, startDestination = "home") {
+                        composable("home") {
+                            HomeScreen(
+                                homeViewModel.sections.value,
+                                homeViewModel::addSection,
+                                homeViewModel::addCard,
+                                homeViewModel::seeMore
+                            )
+                        }
+                    }
                 }
             }
         }

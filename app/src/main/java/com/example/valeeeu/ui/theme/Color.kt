@@ -2,11 +2,15 @@ package com.example.valeeeu.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val DarkBlue = Color(0xff238ad3)
-val Blue = Color(0xff28abf7)
-val LightBlue = Color(0xff85d5fc)
-val LightOrange = Color(0xffffdf8a)
+val Blue700 = Color(0xFF238AD3)
+val Blue500 = Color(0xFF28ABF7)
+val Blue200 = Color(0xFF85D5FC)
+val Orange200 = Color(0xFFFFDF8A)
+val Gray600 = Color(0xFF7A7A7A)
+val Gray500 = Color(0xFFA4A4A4)
+val Gray400 = Color(0xFFC2C2C2)
+val Gray300 = Color(0xFFE5E5E5)
 val Black = Color(0xFF212121)
-val Gray = Color(0xFF666666)
-val LightGray = Color(0xFF9E9E9E)
+val BlackAlpha90 = Color(0xE6212121)
 val White = Color(0xFFFFFFFF)
+val WhiteAlpha90 = Color(0xE6FFFFFF)
