@@ -1,6 +1,7 @@
 package com.example.valeeeu.presentation.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,6 +19,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.valeeeu.R
+import com.example.valeeeu.data.models.SummaryProfile
+import com.example.valeeeu.presentation.ui.theme.Black
+import com.example.valeeeu.presentation.ui.theme.Red
 import com.example.valeeeu.presentation.ui.theme.Yellow
 
 const val BIG_HEIGHT = 186
@@ -26,14 +30,14 @@ const val BIG_WIDTH = 312
 const val NORMAL_WIDTH = 224
 
 @Composable
-fun ProfileCard(size: ProfileCardSize = ProfileCardSize.NORMAL) {
+fun ProfileCard(size: ProfileCardSize = ProfileCardSize.NORMAL, profile: SummaryProfile? = null) {
     Scaffold {
         Card(modifier = Modifier
             .width(width = getWidth(size))
             .clickable { }
         ) {
             Column {
-                PictureAndPrice(size)
+                PictureAndPrice(size, profile)
 
                 Info(size)
             }
@@ -42,7 +46,7 @@ fun ProfileCard(size: ProfileCardSize = ProfileCardSize.NORMAL) {
 }
 
 @Composable
-private fun PictureAndPrice(size: ProfileCardSize) {
+private fun PictureAndPrice(size: ProfileCardSize, profile: SummaryProfile?) {
     Box {
         Image(
             // Change to get picture from string
@@ -62,7 +66,7 @@ private fun PictureAndPrice(size: ProfileCardSize) {
             shape = RoundedCornerShape(100)
         ) {
             Text(
-                text = formatPriceText(9.90f),
+                text = if (profile != null) formatPriceText(profile.lowestPrice) else "",
                 modifier = Modifier
                     .padding(horizontal = 8.dp, vertical = 4.dp),
                 style = MaterialTheme.typography.body2
@@ -77,7 +81,7 @@ private fun Info(size: ProfileCardSize) {
         Surface(
             modifier = Modifier
                 .align(alignment = TopEnd)
-                .padding(top = 7.dp, end = 8.dp)
+                .padding(top = 1.dp, end = 2.dp)
                 .clip(RoundedCornerShape(100))
                 .clickable { }
         ) {
@@ -87,7 +91,7 @@ private fun Info(size: ProfileCardSize) {
                 ),
                 contentDescription = null,
                 modifier = Modifier
-                    .padding(6.dp)
+                    .padding(12.dp)
                     .alpha(ContentAlpha.disabled)
             )
         }
