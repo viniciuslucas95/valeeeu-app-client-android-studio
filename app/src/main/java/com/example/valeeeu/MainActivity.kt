@@ -8,19 +8,13 @@ import androidx.compose.material.Surface
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.valeeeu.repositories.FakeSummaryProfileRepository
-import com.example.valeeeu.repositories.FakeTagRepository
-import com.example.valeeeu.screens.HomeScreen
-import com.example.valeeeu.ui.theme.ValeeeuTheme
-import com.example.valeeeu.viewModels.HomeViewModel
+import com.example.valeeeu.presentation.components.ProfileCard
+import com.example.valeeeu.presentation.ui.theme.ValeeeuTheme
 
 class MainActivity : ComponentActivity() {
-    private val summaryProfileRepository = FakeSummaryProfileRepository()
-    private val tagRepository = FakeTagRepository()
-    private val homeViewModel = HomeViewModel(summaryProfileRepository, tagRepository)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             ValeeeuTheme {
                 Surface(color = MaterialTheme.colors.background) {
@@ -28,12 +22,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(navController = navController, startDestination = "home") {
                         composable("home") {
-                            HomeScreen(
-                                homeViewModel.sections.value,
-                                homeViewModel::addSection,
-                                homeViewModel::addCard,
-                                homeViewModel::seeMore
-                            )
+                            ProfileCard()
                         }
                     }
                 }

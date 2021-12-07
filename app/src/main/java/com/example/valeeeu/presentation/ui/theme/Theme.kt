@@ -1,4 +1,4 @@
-package com.example.valeeeu.ui.theme
+package com.example.valeeeu.presentation.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
@@ -7,13 +7,13 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
-    primary = Blue200,
+    primary = Blue700,
     primaryVariant = Blue700,
-    secondary = Orange200,
+    secondary = Blue700,
 
     background = Black,
     surface = Black,
-    onPrimary = Black,
+    onPrimary = White,
     onSecondary = White,
     onBackground = White,
     onSurface = White
@@ -21,13 +21,13 @@ private val DarkColorPalette = darkColors(
 
 private val LightColorPalette = lightColors(
     primary = Blue500,
-    primaryVariant = Blue700,
-    secondary = Orange200,
+    primaryVariant = Blue500,
+    secondary = Blue500,
 
     background = White,
     surface = White,
     onPrimary = White,
-    onSecondary = Black,
+    onSecondary = White,
     onBackground = Black,
     onSurface = Black
 )

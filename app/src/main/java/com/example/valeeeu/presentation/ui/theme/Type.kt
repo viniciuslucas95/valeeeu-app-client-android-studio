@@ -1,4 +1,4 @@
-package com.example.valeeeu.ui.theme
+package com.example.valeeeu.presentation.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
@@ -58,7 +58,7 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         letterSpacing = 0.5f.sp,
-        color = Gray600
+        color = Black
     ),
     body2 = TextStyle(
         fontFamily = FontFamily.Default,
@@ -71,14 +71,14 @@ val Typography = Typography(
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         letterSpacing = 1.25f.sp,
-        color = Blue500
+        color = Black
     ),
     caption = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         letterSpacing = 0.4f.sp,
-        color = Gray500
+        color = Black
     ),
     overline = TextStyle(
         fontFamily = FontFamily.Default,
