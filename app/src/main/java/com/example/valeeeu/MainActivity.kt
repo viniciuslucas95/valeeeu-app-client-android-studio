@@ -8,7 +8,7 @@ import androidx.compose.material.Surface
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.valeeeu.presentation.components.ProfileCard
+import com.example.valeeeu.presentation.screens.HomeScreen
 import com.example.valeeeu.presentation.ui.theme.ValeeeuTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(navController = navController, startDestination = "home") {
                         composable("home") {
-                            ProfileCard()
+                            HomeScreen()
                         }
                     }
                 }

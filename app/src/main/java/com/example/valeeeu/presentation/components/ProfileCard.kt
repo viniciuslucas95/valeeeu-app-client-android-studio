@@ -1,7 +1,6 @@
 package com.example.valeeeu.presentation.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,41 +11,49 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.LastBaseline
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.valeeeu.R
 import com.example.valeeeu.data.models.SummaryProfile
-import com.example.valeeeu.presentation.ui.theme.Black
 import com.example.valeeeu.presentation.ui.theme.Red
 import com.example.valeeeu.presentation.ui.theme.Yellow
 
-const val BIG_HEIGHT = 186
-const val NORMAL_HEIGHT = 154
-const val BIG_WIDTH = 312
-const val NORMAL_WIDTH = 224
+const val PROFILE_CARD_BIG_HEIGHT = 186
+const val PROFILE_CARD_NORMAL_HEIGHT = 154
+const val PROFILE_CARD_BIG_WIDTH = 312
+const val PROFILE_CARD_NORMAL_WIDTH = 224
 
 @Composable
-fun ProfileCard(size: ProfileCardSize = ProfileCardSize.NORMAL, profile: SummaryProfile? = null) {
-    Scaffold {
-        Card(modifier = Modifier
-            .width(width = getWidth(size))
-            .clickable { }
-        ) {
-            Column {
-                PictureAndPrice(size, profile)
+fun ProfileCard(size: ProfileCardSize = ProfileCardSize.NORMAL, profile: SummaryProfile) {
+    ProfileCardContent(size = size, profile = profile)
+}
 
-                Info(size)
-            }
+@Composable
+private fun ProfileCardContent(size: ProfileCardSize, profile: SummaryProfile) {
+    val fontScale = LocalConfiguration.current.fontScale
+
+    Card(
+        modifier = Modifier
+            .width(width = getWidth(size) * fontScale)
+            .clickable { }
+    ) {
+        Column {
+            PictureAndPrice(size, profile)
+
+            Info(size, profile)
         }
     }
 }
 
 @Composable
-private fun PictureAndPrice(size: ProfileCardSize, profile: SummaryProfile?) {
+private fun PictureAndPrice(size: ProfileCardSize, profile: SummaryProfile) {
     Box {
         Image(
             // Change to get picture from string
@@ -66,7 +73,10 @@ private fun PictureAndPrice(size: ProfileCardSize, profile: SummaryProfile?) {
             shape = RoundedCornerShape(100)
         ) {
             Text(
-                text = if (profile != null) formatPriceText(profile.lowestPrice) else "",
+                text = formatPriceText(9.90f),
+                textAlign = TextAlign.End,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .padding(horizontal = 8.dp, vertical = 4.dp),
                 style = MaterialTheme.typography.body2
@@ -76,23 +86,36 @@ private fun PictureAndPrice(size: ProfileCardSize, profile: SummaryProfile?) {
 }
 
 @Composable
-private fun Info(size: ProfileCardSize) {
+private fun Info(size: ProfileCardSize, profile: SummaryProfile) {
     Box {
-        Surface(
-            modifier = Modifier
-                .align(alignment = TopEnd)
-                .padding(top = 1.dp, end = 2.dp)
-                .clip(RoundedCornerShape(100))
-                .clickable { }
-        ) {
-            Icon(
-                painter = painterResource(
-                    id = R.drawable.ic_favorite
-                ),
-                contentDescription = null,
+        if (profile.isFavorited) {
+            IconButton(
+                drawableId = R.drawable.ic_favorite_toggled,
+                onClick = { },
+                color = Red,
+                contentPadding = 12.dp,
                 modifier = Modifier
-                    .padding(12.dp)
-                    .alpha(ContentAlpha.disabled)
+                    .align(alignment = TopEnd)
+                    .defaultMinSize(minWidth = 36.dp, minHeight = 36.dp)
+            )
+        } else {
+            val onSurfaceColor = MaterialTheme.colors.onSurface
+            val disabledColor =
+                Color(
+                    red = onSurfaceColor.red,
+                    green = onSurfaceColor.green,
+                    blue = onSurfaceColor.blue,
+                    alpha = ContentAlpha.disabled
+                )
+
+            IconButton(
+                drawableId = R.drawable.ic_favorite,
+                onClick = { },
+                color = disabledColor,
+                contentPadding = 12.dp,
+                modifier = Modifier
+                    .align(alignment = TopEnd)
+                    .defaultMinSize(minWidth = 36.dp, minHeight = 36.dp),
             )
         }
 
@@ -100,10 +123,15 @@ private fun Info(size: ProfileCardSize) {
             modifier = Modifier
                 .padding(start = 16.dp)
         ) {
+
             Text(
                 text = "Barbeiro",
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.overline,
-                modifier = Modifier.paddingFromBaseline(28.dp)
+                modifier = Modifier
+                    .paddingFromBaseline(28.dp)
+                    .padding(end = 16.dp)
             )
 
             Text(
@@ -138,7 +166,9 @@ private fun Info(size: ProfileCardSize) {
 @Composable
 private fun RatingAndDistance(rating: Float, distance: Float) {
     Row(
-        modifier = Modifier.paddingFromBaseline(top = 15.dp)
+        modifier = Modifier
+            .paddingFromBaseline(top = 15.dp)
+            .padding(end = 16.dp)
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_rating_full),
@@ -146,7 +176,7 @@ private fun RatingAndDistance(rating: Float, distance: Float) {
             tint = Yellow,
             modifier = Modifier
                 .size(12.dp)
-                .align(alignment = CenterVertically)
+                .align(CenterVertically)
         )
 
         for (i in 2..5) {
@@ -156,7 +186,7 @@ private fun RatingAndDistance(rating: Float, distance: Float) {
                 tint = Yellow,
                 modifier = Modifier
                     .size(12.dp)
-                    .align(alignment = CenterVertically)
+                    .align(CenterVertically)
             )
         }
 
@@ -165,8 +195,10 @@ private fun RatingAndDistance(rating: Float, distance: Float) {
         Text(
             text = formatRatingText(rating),
             style = MaterialTheme.typography.caption,
+            maxLines = 1,
             modifier = Modifier
                 .alpha(ContentAlpha.disabled)
+                .alignBy(LastBaseline)
         )
 
         Spacer(modifier = Modifier.width(8.dp))
@@ -176,7 +208,7 @@ private fun RatingAndDistance(rating: Float, distance: Float) {
             contentDescription = null,
             modifier = Modifier
                 .size(2.dp)
-                .align(alignment = CenterVertically)
+                .align(CenterVertically)
                 .alpha(ContentAlpha.disabled)
         )
 
@@ -185,23 +217,25 @@ private fun RatingAndDistance(rating: Float, distance: Float) {
         Text(
             text = formatDistanceText(distance),
             style = MaterialTheme.typography.caption,
+            maxLines = 1,
             modifier = Modifier
                 .alpha(ContentAlpha.disabled)
+                .alignBy(LastBaseline)
         )
     }
 }
 
 private fun getWidth(size: ProfileCardSize): Dp {
     return when (size) {
-        ProfileCardSize.BIG -> BIG_WIDTH.dp
-        else -> NORMAL_WIDTH.dp
+        ProfileCardSize.BIG -> PROFILE_CARD_BIG_WIDTH.dp
+        else -> PROFILE_CARD_NORMAL_WIDTH.dp
     }
 }
 
 private fun getHeight(size: ProfileCardSize): Dp {
     return when (size) {
-        ProfileCardSize.BIG -> BIG_HEIGHT.dp
-        else -> NORMAL_HEIGHT.dp
+        ProfileCardSize.BIG -> PROFILE_CARD_BIG_HEIGHT.dp
+        else -> PROFILE_CARD_NORMAL_HEIGHT.dp
     }
 }
 

@@ -4,16 +4,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.valeeeu.data.models.SummaryProfile
 import com.example.valeeeu.data.repositories.IProfileRepository
+import com.example.valeeeu.data.repositories.ProfileFetchType
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val profileRepository: IProfileRepository
 ) : ViewModel() {
-    fun onFetchProfile(tag: String, index: Int, callback: (SummaryProfile) -> Unit) {
+    fun onFetchProfile(
+        limit: Int = 10,
+        offset: Int = 0,
+        fetchType: ProfileFetchType = ProfileFetchType.LIST,
+        callback: (List<SummaryProfile>) -> Unit
+    ) {
         viewModelScope.launch {
-            val profile = profileRepository.getSummaryProfile()
+            val profiles =
+                profileRepository.getProfiles(limit = limit, offset = offset, fetchType = fetchType)
 
-            callback(profile)
+            callback(profiles)
         }
     }
 
