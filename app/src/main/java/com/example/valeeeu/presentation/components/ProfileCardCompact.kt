@@ -15,21 +15,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.valeeeu.R
-import com.example.valeeeu.data.models.SummaryProfile
+import com.example.valeeeu.data.models.SummarizedProfile
 import com.example.valeeeu.logic.formatters.formatDistanceText
 import com.example.valeeeu.logic.formatters.formatPriceText
 import com.example.valeeeu.logic.formatters.formatRatingText
 import com.example.valeeeu.presentation.ui.theme.Yellow
 
-const val PROFILE_CARD_VERTICAL_HEIGHT = 84
+const val PROFILE_CARD_COMPACT_HEIGHT = 84
 
 @Composable
-fun ProfileCardVertical(profile: SummaryProfile) {
-    ProfileCardVerticalContent(profile)
+fun ProfileCardCompact(profile: SummarizedProfile) {
+    ProfileCardCompactContent(profile)
 }
 
 @Composable
-private fun ProfileCardVerticalContent(profile: SummaryProfile) {
+private fun ProfileCardCompactContent(profile: SummarizedProfile) {
     Card(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -48,8 +48,8 @@ private fun ProfileCardVerticalContent(profile: SummaryProfile) {
                     painter = painterResource(id = R.drawable.barber_shop),
                     contentDescription = null,
                     modifier = Modifier
-                        .width(width = PROFILE_CARD_VERTICAL_HEIGHT.dp)
-                        .height(height = PROFILE_CARD_VERTICAL_HEIGHT.dp),
+                        .width(width = PROFILE_CARD_COMPACT_HEIGHT.dp)
+                        .height(height = PROFILE_CARD_COMPACT_HEIGHT.dp),
                     contentScale = ContentScale.Crop
                 )
                 Column(modifier = Modifier.padding(start = 16.dp)) {

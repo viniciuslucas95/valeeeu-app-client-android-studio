@@ -1,6 +1,5 @@
 package com.example.valeeeu.presentation.sections
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.*
@@ -14,11 +13,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.valeeeu.R
-import com.example.valeeeu.data.models.SummaryProfile
-import com.example.valeeeu.data.repositories.ProfileFetchType
-import com.example.valeeeu.logic.formatters.formatRatingText
+import com.example.valeeeu.data.models.SummarizedProfile
 import com.example.valeeeu.presentation.components.*
-import com.example.valeeeu.presentation.ui.theme.Black
 import kotlin.math.ceil
 
 @Composable
@@ -26,18 +22,18 @@ fun HighlightedCards(
     fetchProfile: (
         limit: Int,
         offset: Int,
-        fetchType: ProfileFetchType,
-        callback: (List<SummaryProfile>) -> Unit
+        includeDescription: Boolean,
+        callback: (List<SummarizedProfile>) -> Unit
     ) -> Unit
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val profiles = remember { mutableStateOf(listOf<SummaryProfile>()) }
+    val profiles = remember { mutableStateOf(listOf<SummarizedProfile>()) }
     val maxCardsInScreen =
-        remember { ceil(screenWidth / PROFILE_CARD_HORIZONTAL_NORMAL_WIDTH.dp).toInt() }
+        remember { ceil(screenWidth / PROFILE_CARD_NORMAL_WIDTH.dp).toInt() }
     val listState = rememberLazyListState()
     val isFetching = remember { mutableStateOf(false) }
 
-    if (listState.onEndReached() && !isFetching.value) {
+    if (listState.onEndReached(maxCardsInScreen) && !isFetching.value) {
         isFetching.value = true
 
         val fetchAmount = if (profiles.value.isEmpty()) maxCardsInScreen * 2 else maxCardsInScreen
@@ -45,7 +41,7 @@ fun HighlightedCards(
         fetchProfile(
             fetchAmount,
             profiles.value.size,
-            ProfileFetchType.SUMMARY
+            true
         ) {
             profiles.value = profiles.value + it
 
@@ -62,45 +58,17 @@ fun HighlightedCards(
 
 @Composable
 private fun HighlightedCardsContent(
-    profiles: List<SummaryProfile>,
+    profiles: List<SummarizedProfile>,
     listState: LazyListState,
     isFetching: Boolean
 ) {
     Column(
         modifier = Modifier.paddingFromBaseline(top = 40.dp)
     ) {
-        Row(modifier = Modifier.paddingFromBaseline(bottom = 16.dp)) {
-            Text(
-                text = stringResource(R.string.highlights),
-                style = MaterialTheme.typography.subtitle1,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .padding(start = 16.dp)
-                    .alignBy(LastBaseline)
-                    .alpha(ContentAlpha.high)
-            )
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            TextButton(
-                text = stringResource(R.string.see_more),
-                enabled = profiles.isNotEmpty(),
-                onClick = { },
-                modifier = Modifier
-                    .alignBy(LastBaseline)
-            )
-        }
+        TitleAndSeeMoreButton(profiles = profiles)
 
         if (profiles.isEmpty()) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                EmptyCardForMeasurement()
-
-                CircularProgressIndicator()
-            }
+            EmptyListCircularProgressIndicator()
         }
 
         LazyRow(
@@ -109,18 +77,12 @@ private fun HighlightedCardsContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             itemsIndexed(profiles, key = { _, profile -> profile.username }) { index, profile ->
-                ProfileCardHorizontal(profile = profile, size = ProfileCardSize.NORMAL)
-
-                if (index < profiles.size - 1) {
-                    Spacer(modifier = Modifier.width(width = 16.dp))
-                }
+                Card(isNotLast = index < profiles.size - 1, profile = profile)
             }
 
             if (isFetching && profiles.isNotEmpty()) {
                 item {
-                    Box(modifier = Modifier.padding(start = 16.dp)) {
-                        CircularProgressIndicator()
-                    }
+                    ListCircularProgressIndicator()
                 }
             }
         }
@@ -128,9 +90,9 @@ private fun HighlightedCardsContent(
 }
 
 @Composable
-private fun EmptyCardForMeasurement(){
+private fun EmptyCardForMeasurement() {
     Column {
-        Spacer(modifier = Modifier.height(height = PROFILE_CARD_HORIZONTAL_NORMAL_HEIGHT.dp))
+        Spacer(modifier = Modifier.height(height = PROFILE_CARD_NORMAL_HEIGHT.dp))
 
         Text(
             text = "",
@@ -159,5 +121,59 @@ private fun EmptyCardForMeasurement(){
             modifier = Modifier
                 .paddingFromBaseline(top = 29.dp, bottom = 16.dp)
         )
+    }
+}
+
+@Composable
+private fun TitleAndSeeMoreButton(profiles: List<SummarizedProfile>) {
+    Row(modifier = Modifier.paddingFromBaseline(bottom = 16.dp)) {
+        Text(
+            text = stringResource(R.string.highlights),
+            style = MaterialTheme.typography.subtitle1,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .alignBy(LastBaseline)
+                .alpha(ContentAlpha.high)
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        TextButton(
+            text = stringResource(R.string.see_more),
+            enabled = profiles.isNotEmpty(),
+            onClick = { },
+            modifier = Modifier
+                .alignBy(LastBaseline)
+        )
+    }
+}
+
+@Composable
+private fun EmptyListCircularProgressIndicator() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        EmptyCardForMeasurement()
+
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+private fun Card(isNotLast: Boolean, profile: SummarizedProfile) {
+    ProfileCard(profile = profile, size = ProfileCardSize.NORMAL)
+
+    if (isNotLast) {
+        Spacer(modifier = Modifier.width(width = 16.dp))
+    }
+}
+
+@Composable
+private fun ListCircularProgressIndicator() {
+    Box(modifier = Modifier.padding(start = 16.dp)) {
+        CircularProgressIndicator()
     }
 }

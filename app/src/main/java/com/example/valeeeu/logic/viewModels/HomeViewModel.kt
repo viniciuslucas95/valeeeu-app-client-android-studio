@@ -2,9 +2,8 @@ package com.example.valeeeu.logic.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.valeeeu.data.models.SummaryProfile
+import com.example.valeeeu.data.models.SummarizedProfile
 import com.example.valeeeu.data.repositories.IProfileRepository
-import com.example.valeeeu.data.repositories.ProfileFetchType
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -13,12 +12,16 @@ class HomeViewModel(
     fun onFetchProfile(
         limit: Int = 10,
         offset: Int = 0,
-        fetchType: ProfileFetchType = ProfileFetchType.LIST,
-        callback: (List<SummaryProfile>) -> Unit
+        includeDescription: Boolean = true,
+        callback: (List<SummarizedProfile>) -> Unit
     ) {
         viewModelScope.launch {
             val profiles =
-                profileRepository.getProfiles(limit = limit, offset = offset, fetchType = fetchType)
+                profileRepository.getSummarizedProfiles(
+                    limit = limit,
+                    offset = offset,
+                    includeDescription = includeDescription
+                )
 
             callback(profiles)
         }

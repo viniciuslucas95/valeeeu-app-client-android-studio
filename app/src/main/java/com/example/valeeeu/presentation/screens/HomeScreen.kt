@@ -17,12 +17,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.valeeeu.R
-import com.example.valeeeu.data.models.SummaryProfile
-import com.example.valeeeu.data.repositories.ProfileFetchType
+import com.example.valeeeu.data.models.SummarizedProfile
 import com.example.valeeeu.logic.viewModels.HomeViewModel
-import com.example.valeeeu.presentation.components.PROFILE_CARD_HORIZONTAL_NORMAL_HEIGHT
-import com.example.valeeeu.presentation.components.PROFILE_CARD_VERTICAL_HEIGHT
-import com.example.valeeeu.presentation.components.ProfileCardVertical
+import com.example.valeeeu.presentation.components.PROFILE_CARD_COMPACT_HEIGHT
+import com.example.valeeeu.presentation.components.ProfileCardCompact
 import com.example.valeeeu.presentation.components.onEndReached
 import com.example.valeeeu.presentation.sections.Categories
 import com.example.valeeeu.presentation.sections.HighlightedCards
@@ -32,14 +30,14 @@ import kotlin.math.ceil
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = homeViewModelFactory()) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val suggestedProfiles = remember { mutableStateOf(listOf<SummaryProfile>()) }
+    val suggestedProfiles = remember { mutableStateOf(listOf<SummarizedProfile>()) }
     val maxVerticalCardsInScreen =
-        remember { ceil(screenHeight / PROFILE_CARD_VERTICAL_HEIGHT.dp).toInt() }
+        remember { ceil(screenHeight / PROFILE_CARD_COMPACT_HEIGHT.dp).toInt() }
     val suggestedListState = rememberLazyListState()
-    val isFetching = remember { mutableStateOf(false) }
+    val isSuggestedListFetching = remember { mutableStateOf(false) }
 
-    if (suggestedListState.onEndReached(threshold = maxVerticalCardsInScreen) && !isFetching.value) {
-        isFetching.value = true
+    if (suggestedListState.onEndReached(maxVerticalCardsInScreen) && !isSuggestedListFetching.value) {
+        isSuggestedListFetching.value = true
 
         val fetchAmount =
             if (suggestedProfiles.value.isEmpty()) maxVerticalCardsInScreen * 2 else maxVerticalCardsInScreen
@@ -47,11 +45,11 @@ fun HomeScreen(viewModel: HomeViewModel = homeViewModelFactory()) {
         viewModel.onFetchProfile(
             fetchAmount,
             suggestedProfiles.value.size,
-            ProfileFetchType.SUMMARY
+            false
         ) {
             suggestedProfiles.value = suggestedProfiles.value + it
 
-            isFetching.value = false
+            isSuggestedListFetching.value = false
         }
     }
 
@@ -59,14 +57,14 @@ fun HomeScreen(viewModel: HomeViewModel = homeViewModelFactory()) {
         viewModel = viewModel,
         suggestedListState = suggestedListState,
         suggestedProfiles = suggestedProfiles.value,
-        isSuggestedListFetching = isFetching.value
+        isSuggestedListFetching = isSuggestedListFetching.value
     )
 }
 
 @Composable
 private fun HomeScreenContent(
     viewModel: HomeViewModel,
-    suggestedProfiles: List<SummaryProfile>,
+    suggestedProfiles: List<SummarizedProfile>,
     suggestedListState: LazyListState,
     isSuggestedListFetching: Boolean
 ) {
@@ -77,72 +75,88 @@ private fun HomeScreenContent(
         ) {
             item {
                 HighlightedCards(fetchProfile = viewModel::onFetchProfile)
-            }
 
-            item {
                 Spacer(modifier = Modifier.height(height = 31.dp))
             }
 
             item {
                 Categories()
-            }
 
-            item {
                 Spacer(modifier = Modifier.height(height = 24.dp))
             }
 
+            // Suggested list section starts here
+            // If possible, move it to its own file
             item {
-                Text(
-                    text = stringResource(R.string.suggestions),
-                    style = MaterialTheme.typography.subtitle1,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .alpha(ContentAlpha.high)
-                )
-            }
+                SuggestedListTitle()
 
-            item {
                 Spacer(modifier = Modifier.height(height = 12.dp))
             }
 
             if (suggestedProfiles.isEmpty()) {
                 item {
-                    Row(
-                        modifier = Modifier.height(height = PROFILE_CARD_VERTICAL_HEIGHT.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Spacer(modifier = Modifier.weight(1f))
-
-                        CircularProgressIndicator()
-
-                        Spacer(modifier = Modifier.weight(1f))
-                    }
+                    EmptySuggestedListCircularProgressIndicator()
                 }
             }
 
             itemsIndexed(
                 suggestedProfiles,
                 key = { _, profile -> profile.username }) { index, profile ->
-                ProfileCardVertical(profile = profile)
-
-                if (index < suggestedProfiles.size - 1) {
-                    Spacer(modifier = Modifier.height(height = 16.dp))
-                }
+                SuggestedCard(profile = profile, isNotLast = index < suggestedProfiles.size - 1)
             }
 
             if (isSuggestedListFetching && suggestedProfiles.isNotEmpty()) {
                 item {
-                    Row(modifier = Modifier.padding(top = 16.dp)) {
-                        Spacer(modifier = Modifier.weight(1f))
-
-                        CircularProgressIndicator()
-
-                        Spacer(modifier = Modifier.weight(1f))
-                    }
+                    SuggestedListCircularProgressIndicator()
                 }
             }
         }
     }
+}
+
+@Composable
+private fun EmptySuggestedListCircularProgressIndicator() {
+    Row(
+        modifier = Modifier.height(height = PROFILE_CARD_COMPACT_HEIGHT.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(modifier = Modifier.weight(1f))
+
+        CircularProgressIndicator()
+
+        Spacer(modifier = Modifier.weight(1f))
+    }
+}
+
+@Composable
+private fun SuggestedListCircularProgressIndicator() {
+    Row(modifier = Modifier.padding(top = 16.dp)) {
+        Spacer(modifier = Modifier.weight(1f))
+
+        CircularProgressIndicator()
+
+        Spacer(modifier = Modifier.weight(1f))
+    }
+}
+
+@Composable
+private fun SuggestedCard(profile: SummarizedProfile, isNotLast: Boolean) {
+    ProfileCardCompact(profile = profile)
+
+    if (isNotLast) {
+        Spacer(modifier = Modifier.height(height = 16.dp))
+    }
+}
+
+@Composable
+private fun SuggestedListTitle() {
+    Text(
+        text = stringResource(R.string.suggestions),
+        style = MaterialTheme.typography.subtitle1,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .alpha(ContentAlpha.high)
+    )
 }

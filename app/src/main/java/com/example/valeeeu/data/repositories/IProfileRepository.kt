@@ -1,15 +1,11 @@
 package com.example.valeeeu.data.repositories
 
-import com.example.valeeeu.data.models.SummaryProfile
+import com.example.valeeeu.data.models.SummarizedProfile
 
 interface IProfileRepository {
-    suspend fun getProfiles(
-        limit: Int = 10,
-        offset: Int = 0,
-        fetchType: ProfileFetchType = ProfileFetchType.LIST
-    ): List<SummaryProfile>
-}
-
-enum class ProfileFetchType {
-    COMPLETE, SUMMARY, LIST
+    suspend fun getSummarizedProfiles(
+        limit: Int,
+        offset: Int,
+        includeDescription:Boolean = true
+    ): List<SummarizedProfile>
 }

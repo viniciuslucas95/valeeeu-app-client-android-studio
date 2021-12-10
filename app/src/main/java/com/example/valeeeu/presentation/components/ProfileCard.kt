@@ -20,24 +20,24 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.valeeeu.R
-import com.example.valeeeu.data.models.SummaryProfile
+import com.example.valeeeu.data.models.SummarizedProfile
 import com.example.valeeeu.logic.formatters.formatDistanceText
 import com.example.valeeeu.logic.formatters.formatPriceText
 import com.example.valeeeu.logic.formatters.formatRatingText
 import com.example.valeeeu.presentation.ui.theme.Yellow
 
-const val PROFILE_CARD_HORIZONTAL_BIG_HEIGHT = 186
-const val PROFILE_CARD_HORIZONTAL_NORMAL_HEIGHT = 154
-const val PROFILE_CARD_HORIZONTAL_BIG_WIDTH = 312
-const val PROFILE_CARD_HORIZONTAL_NORMAL_WIDTH = 224
+const val PROFILE_CARD_BIG_HEIGHT = 186
+const val PROFILE_CARD_NORMAL_HEIGHT = 154
+const val PROFILE_CARD_BIG_WIDTH = 312
+const val PROFILE_CARD_NORMAL_WIDTH = 224
 
 @Composable
-fun ProfileCardHorizontal(size: ProfileCardSize = ProfileCardSize.NORMAL, profile: SummaryProfile) {
-    ProfileCardHorizontalContent(size = size, profile = profile)
+fun ProfileCard(size: ProfileCardSize = ProfileCardSize.NORMAL, profile: SummarizedProfile) {
+    ProfileCardContent(size = size, profile = profile)
 }
 
 @Composable
-private fun ProfileCardHorizontalContent(size: ProfileCardSize, profile: SummaryProfile) {
+private fun ProfileCardContent(size: ProfileCardSize, profile: SummarizedProfile) {
     val fontScale = LocalConfiguration.current.fontScale
 
     Card(
@@ -54,7 +54,7 @@ private fun ProfileCardHorizontalContent(size: ProfileCardSize, profile: Summary
 }
 
 @Composable
-private fun PictureAndPrice(size: ProfileCardSize, profile: SummaryProfile) {
+private fun PictureAndPrice(size: ProfileCardSize, profile: SummarizedProfile) {
     Box {
         Image(
             // Change to get picture from string
@@ -88,7 +88,7 @@ private fun PictureAndPrice(size: ProfileCardSize, profile: SummaryProfile) {
 }
 
 @Composable
-private fun Info(size: ProfileCardSize, profile: SummaryProfile) {
+private fun Info(size: ProfileCardSize, profile: SummarizedProfile) {
     Box {
         FavoriteButton(
             isFavorited = profile.isFavorited,
@@ -204,15 +204,15 @@ private fun RatingAndDistance(rating: Float, distance: Float) {
 
 private fun getWidth(size: ProfileCardSize): Dp {
     return when (size) {
-        ProfileCardSize.BIG -> PROFILE_CARD_HORIZONTAL_BIG_WIDTH.dp
-        else -> PROFILE_CARD_HORIZONTAL_NORMAL_WIDTH.dp
+        ProfileCardSize.BIG -> PROFILE_CARD_BIG_WIDTH.dp
+        else -> PROFILE_CARD_NORMAL_WIDTH.dp
     }
 }
 
 private fun getHeight(size: ProfileCardSize): Dp {
     return when (size) {
-        ProfileCardSize.BIG -> PROFILE_CARD_HORIZONTAL_BIG_HEIGHT.dp
-        else -> PROFILE_CARD_HORIZONTAL_NORMAL_HEIGHT.dp
+        ProfileCardSize.BIG -> PROFILE_CARD_BIG_HEIGHT.dp
+        else -> PROFILE_CARD_NORMAL_HEIGHT.dp
     }
 }
 
