@@ -1,5 +1,6 @@
 package com.example.valeeeu.presentation.sections
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.*
@@ -15,7 +16,9 @@ import androidx.compose.ui.unit.dp
 import com.example.valeeeu.R
 import com.example.valeeeu.data.models.SummaryProfile
 import com.example.valeeeu.data.repositories.ProfileFetchType
+import com.example.valeeeu.logic.formatters.formatRatingText
 import com.example.valeeeu.presentation.components.*
+import com.example.valeeeu.presentation.ui.theme.Black
 import kotlin.math.ceil
 
 @Composable
@@ -29,7 +32,8 @@ fun HighlightedCards(
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val profiles = remember { mutableStateOf(listOf<SummaryProfile>()) }
-    val maxCardsInScreen = remember { ceil(screenWidth / PROFILE_CARD_NORMAL_WIDTH.dp).toInt() }
+    val maxCardsInScreen =
+        remember { ceil(screenWidth / PROFILE_CARD_HORIZONTAL_NORMAL_WIDTH.dp).toInt() }
     val listState = rememberLazyListState()
     val isFetching = remember { mutableStateOf(false) }
 
@@ -81,6 +85,7 @@ private fun HighlightedCardsContent(
 
             TextButton(
                 text = stringResource(R.string.see_more),
+                enabled = profiles.isNotEmpty(),
                 onClick = { },
                 modifier = Modifier
                     .alignBy(LastBaseline)
@@ -88,15 +93,13 @@ private fun HighlightedCardsContent(
         }
 
         if (profiles.isEmpty()) {
-            Row(
-                modifier = Modifier.height(height = PROFILE_CARD_NORMAL_HEIGHT.dp * 2),
-                verticalAlignment = Alignment.CenterVertically
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Spacer(modifier = Modifier.weight(1f))
+                EmptyCardForMeasurement()
 
                 CircularProgressIndicator()
-
-                Spacer(modifier = Modifier.weight(1f))
             }
         }
 
@@ -106,7 +109,7 @@ private fun HighlightedCardsContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             itemsIndexed(profiles, key = { _, profile -> profile.username }) { index, profile ->
-                ProfileCard(profile = profile, size = ProfileCardSize.NORMAL)
+                ProfileCardHorizontal(profile = profile, size = ProfileCardSize.NORMAL)
 
                 if (index < profiles.size - 1) {
                     Spacer(modifier = Modifier.width(width = 16.dp))
@@ -115,7 +118,7 @@ private fun HighlightedCardsContent(
 
             if (isFetching && profiles.isNotEmpty()) {
                 item {
-                    Column(modifier = Modifier.padding(start = 16.dp)) {
+                    Box(modifier = Modifier.padding(start = 16.dp)) {
                         CircularProgressIndicator()
                     }
                 }
@@ -124,10 +127,37 @@ private fun HighlightedCardsContent(
     }
 }
 
-private const val ON_END_THRESHOLD = 2
+@Composable
+private fun EmptyCardForMeasurement(){
+    Column {
+        Spacer(modifier = Modifier.height(height = PROFILE_CARD_HORIZONTAL_NORMAL_HEIGHT.dp))
 
-private fun LazyListState.onEndReached(): Boolean {
-    val lastItem = layoutInfo.visibleItemsInfo.lastOrNull() ?: return true
+        Text(
+            text = "",
+            style = MaterialTheme.typography.overline,
+            modifier = Modifier.paddingFromBaseline(28.dp)
+        )
 
-    return lastItem.index >= layoutInfo.totalItemsCount - ON_END_THRESHOLD
+        Text(
+            text = "",
+            style = MaterialTheme.typography.h6,
+            modifier = Modifier.paddingFromBaseline(33.dp)
+        )
+
+        Row(
+            modifier = Modifier.paddingFromBaseline(top = 15.dp)
+        ) {
+            Text(
+                text = "",
+                style = MaterialTheme.typography.caption
+            )
+        }
+
+        Text(
+            text = "\n\n",
+            style = MaterialTheme.typography.body2,
+            modifier = Modifier
+                .paddingFromBaseline(top = 29.dp, bottom = 16.dp)
+        )
+    }
 }

@@ -13,7 +13,7 @@ fun TextButton(
     modifier: Modifier = Modifier,
     text: String,
     onClick: () -> Unit,
-    isEnabled: Boolean = true
+    enabled: Boolean = true
 ) {
     val disabledColor = Color(
         if (isSystemInDarkTheme()) White.red else Black.red,
@@ -30,7 +30,7 @@ fun TextButton(
             disabledBackgroundColor = Color.Transparent,
             disabledContentColor = disabledColor
         ),
-        enabled = isEnabled,
+        enabled = enabled,
         onClick = { onClick() },
         modifier = modifier
     ) {

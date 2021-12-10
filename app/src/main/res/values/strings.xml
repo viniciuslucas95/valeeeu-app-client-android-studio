@@ -8,4 +8,7 @@
     <string name="works_and_renovations">Obras e Reformas</string>
     <string name="beauty_and_fashion">Beleza e Moda</string>
     <string name="sales">Vendas</string>
+    <string name="suggestions">Recomendados</string>
+    <string name="budget">Orçamento</string>
+    <string name="from_price">A partir de</string>
 </resources>

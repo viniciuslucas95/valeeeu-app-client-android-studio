@@ -67,12 +67,12 @@ private fun CategoryContent(
 
             Text(
                 text = label,
-                style = MaterialTheme.typography.subtitle2,
                 maxLines = maxLines,
                 textAlign = TextAlign.Center,
                 overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.subtitle2,
                 modifier = Modifier
-                    .alpha(ContentAlpha.medium)
+                    .alpha(alpha = ContentAlpha.medium)
                     .paddingFromBaseline(top = 24.dp, bottom = 8.dp)
             )
         }

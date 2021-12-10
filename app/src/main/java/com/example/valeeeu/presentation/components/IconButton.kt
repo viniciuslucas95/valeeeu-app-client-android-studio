@@ -21,7 +21,7 @@ fun IconButton(
     disabledBackgroundColor: Color = Color.Transparent,
     color: Color = MaterialTheme.colors.surface,
     disabledColor: Color = MaterialTheme.colors.surface,
-    isEnabled: Boolean = true,
+    enabled: Boolean = true,
     contentPadding: Dp = 12.dp,
     contentDescription: String? = null,
     elevation: ButtonElevation? = ButtonDefaults.elevation(),
@@ -38,7 +38,7 @@ fun IconButton(
     Button(
         contentPadding = PaddingValues(contentPadding),
         onClick = { onClick() },
-        enabled = isEnabled,
+        enabled = enabled,
         elevation = elevation,
         interactionSource = interactionSource,
         colors = ButtonDefaults.buttonColors(
