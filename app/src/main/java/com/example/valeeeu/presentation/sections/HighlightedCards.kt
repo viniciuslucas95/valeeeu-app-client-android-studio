@@ -6,10 +6,13 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.LastBaseline
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.example.valeeeu.R
 import com.example.valeeeu.data.models.SummaryProfile
 import com.example.valeeeu.data.repositories.ProfileFetchType
 import com.example.valeeeu.presentation.components.*
@@ -54,7 +57,7 @@ fun HighlightedCards(
 }
 
 @Composable
-fun HighlightedCardsContent(
+private fun HighlightedCardsContent(
     profiles: List<SummaryProfile>,
     listState: LazyListState,
     isFetching: Boolean
@@ -64,21 +67,23 @@ fun HighlightedCardsContent(
     ) {
         Row(modifier = Modifier.paddingFromBaseline(bottom = 16.dp)) {
             Text(
-                text = "Destaques",
+                text = stringResource(R.string.highlights),
                 style = MaterialTheme.typography.subtitle1,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .padding(start = 16.dp)
                     .alignBy(LastBaseline)
+                    .alpha(ContentAlpha.high)
             )
 
             Spacer(modifier = Modifier.weight(1f))
 
             TextButton(
-                text = "Ver Mais",
+                text = stringResource(R.string.see_more),
                 onClick = { },
-                modifier = Modifier.alignBy(LastBaseline)
+                modifier = Modifier
+                    .alignBy(LastBaseline)
             )
         }
 
@@ -119,7 +124,7 @@ fun HighlightedCardsContent(
     }
 }
 
-const val ON_END_THRESHOLD = 2
+private const val ON_END_THRESHOLD = 2
 
 private fun LazyListState.onEndReached(): Boolean {
     val lastItem = layoutInfo.visibleItemsInfo.lastOrNull() ?: return true

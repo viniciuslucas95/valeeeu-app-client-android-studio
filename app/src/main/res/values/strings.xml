@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">valeeeu!</string>
+    <string name="technology">Tecnologia</string>
+    <string name="categories">Categorias</string>
+    <string name="highlights">Destaques</string>
+    <string name="see_more">Ver Mais</string>
+    <string name="vehicles">Veículos</string>
+    <string name="works_and_renovations">Obras e Reformas</string>
+    <string name="beauty_and_fashion">Beleza e Moda</string>
+    <string name="sales">Vendas</string>
 </resources>

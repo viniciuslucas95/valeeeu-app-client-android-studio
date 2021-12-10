@@ -78,7 +78,8 @@ private fun PictureAndPrice(size: ProfileCardSize, profile: SummaryProfile) {
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
-                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                    .alpha(ContentAlpha.high),
                 style = MaterialTheme.typography.body2
             )
         }
@@ -93,10 +94,11 @@ private fun Info(size: ProfileCardSize, profile: SummaryProfile) {
                 drawableId = R.drawable.ic_favorite_toggled,
                 onClick = { },
                 color = Red,
-                contentPadding = 12.dp,
+                elevation = null,
                 modifier = Modifier
                     .align(alignment = TopEnd)
-                    .defaultMinSize(minWidth = 36.dp, minHeight = 36.dp)
+                    .padding(top = 1.dp, end = 2.dp)
+                    .defaultMinSize(minWidth = 48.dp, minHeight = 48.dp)
             )
         } else {
             val onSurfaceColor = MaterialTheme.colors.onSurface
@@ -112,10 +114,11 @@ private fun Info(size: ProfileCardSize, profile: SummaryProfile) {
                 drawableId = R.drawable.ic_favorite,
                 onClick = { },
                 color = disabledColor,
-                contentPadding = 12.dp,
+                elevation = null,
                 modifier = Modifier
                     .align(alignment = TopEnd)
-                    .defaultMinSize(minWidth = 36.dp, minHeight = 36.dp),
+                    .padding(top = 1.dp, end = 2.dp)
+                    .defaultMinSize(minWidth = 48.dp, minHeight = 48.dp)
             )
         }
 
@@ -132,6 +135,7 @@ private fun Info(size: ProfileCardSize, profile: SummaryProfile) {
                 modifier = Modifier
                     .paddingFromBaseline(28.dp)
                     .padding(end = 16.dp)
+                    .alpha(ContentAlpha.high)
             )
 
             Text(
@@ -142,6 +146,7 @@ private fun Info(size: ProfileCardSize, profile: SummaryProfile) {
                 modifier = Modifier
                     .paddingFromBaseline(33.dp)
                     .padding(end = 16.dp)
+                    .alpha(ContentAlpha.high)
             )
 
             RatingAndDistance(rating = 1.332123f, distance = 1231.3213f)
