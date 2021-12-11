@@ -140,7 +140,7 @@ private fun TitleAndSeeMoreButton(profiles: List<SummarizedProfile>) {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        TextButton(
+        CustomTextButton(
             text = stringResource(R.string.see_more),
             enabled = profiles.isNotEmpty(),
             onClick = { },

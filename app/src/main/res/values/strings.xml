@@ -11,4 +11,11 @@
     <string name="suggestions">Recomendados</string>
     <string name="budget">Orçamento</string>
     <string name="from_price">A partir de</string>
+    <string name="menu">Menu</string>
+
+    <!-- Bottom App Bar -->
+    <string name="home">Início</string>
+    <string name="search">Procurar</string>
+    <string name="messages">Mensagens</string>
+    <string name="profile">Perfil</string>
 </resources>

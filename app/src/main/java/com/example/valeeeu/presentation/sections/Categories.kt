@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -18,7 +20,7 @@ fun Categories() {
 }
 
 @Composable
-private fun CategoriesContent(){
+private fun CategoriesContent() {
     Column {
         Text(
             text = stringResource(R.string.categories),
@@ -33,7 +35,7 @@ private fun CategoriesContent(){
         LazyRow(contentPadding = PaddingValues(horizontal = 16.dp)) {
             item {
                 Category(
-                    drawableId = R.drawable.ic_devices,
+                    icon = Icons.Rounded.Devices,
                     onClick = { },
                     contentDescription = stringResource(R.string.technology),
                     label = stringResource(R.string.technology)
@@ -46,7 +48,7 @@ private fun CategoriesContent(){
 
             item {
                 Category(
-                    drawableId = R.drawable.ic_vehicle,
+                    icon = Icons.Rounded.DirectionsCar,
                     onClick = { },
                     contentDescription = stringResource(R.string.vehicles),
                     label = stringResource(R.string.vehicles)
@@ -59,7 +61,7 @@ private fun CategoriesContent(){
 
             item {
                 Category(
-                    drawableId = R.drawable.ic_tools,
+                    icon = Icons.Rounded.Handyman,
                     onClick = { },
                     contentDescription = stringResource(R.string.works_and_renovations),
                     label = stringResource(R.string.works_and_renovations),
@@ -73,7 +75,7 @@ private fun CategoriesContent(){
 
             item {
                 Category(
-                    drawableId = R.drawable.ic_beauty,
+                    icon = Icons.Rounded.FaceRetouchingNatural,
                     onClick = { },
                     contentDescription = stringResource(R.string.beauty_and_fashion),
                     label = stringResource(R.string.beauty_and_fashion),
@@ -87,7 +89,7 @@ private fun CategoriesContent(){
 
             item {
                 Category(
-                    drawableId = R.drawable.ic_sales,
+                    icon = Icons.Rounded.ShoppingBag,
                     onClick = { },
                     contentDescription = stringResource(R.string.sales),
                     label = stringResource(R.string.sales)

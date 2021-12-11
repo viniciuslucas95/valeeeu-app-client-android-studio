@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,9 +18,11 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.valeeeu.R
 import com.example.valeeeu.data.models.SummarizedProfile
 import com.example.valeeeu.logic.viewModels.HomeViewModel
+import com.example.valeeeu.presentation.navigation.BottomNavBar
 import com.example.valeeeu.presentation.components.PROFILE_CARD_COMPACT_HEIGHT
 import com.example.valeeeu.presentation.components.ProfileCardCompact
 import com.example.valeeeu.presentation.components.onEndReached
@@ -28,7 +32,7 @@ import com.example.valeeeu.utils.factories.homeViewModelFactory
 import kotlin.math.ceil
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = homeViewModelFactory()) {
+fun HomeScreen(navController: NavController, viewModel: HomeViewModel = homeViewModelFactory()) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val suggestedProfiles = remember { mutableStateOf(listOf<SummarizedProfile>()) }
     val maxVerticalCardsInScreen =
@@ -54,6 +58,7 @@ fun HomeScreen(viewModel: HomeViewModel = homeViewModelFactory()) {
     }
 
     HomeScreenContent(
+        navController = navController,
         viewModel = viewModel,
         suggestedListState = suggestedListState,
         suggestedProfiles = suggestedProfiles.value,
@@ -63,12 +68,16 @@ fun HomeScreen(viewModel: HomeViewModel = homeViewModelFactory()) {
 
 @Composable
 private fun HomeScreenContent(
+    navController: NavController,
     viewModel: HomeViewModel,
     suggestedProfiles: List<SummarizedProfile>,
     suggestedListState: LazyListState,
     isSuggestedListFetching: Boolean
 ) {
-    Scaffold {
+    Scaffold(
+        topBar = { TopBar() },
+        bottomBar = { BottomNavBar(navController) }
+    ) {
         LazyColumn(
             state = suggestedListState,
             contentPadding = PaddingValues(bottom = 16.dp)
@@ -158,5 +167,26 @@ private fun SuggestedListTitle() {
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .alpha(ContentAlpha.high)
+    )
+}
+
+@Composable
+private fun TopBar() {
+    TopAppBar(
+        backgroundColor = MaterialTheme.colors.surface,
+        title = {
+            Text(
+                text = stringResource(R.string.home),
+                style = MaterialTheme.typography.h6
+            )
+        },
+        navigationIcon = {
+            IconButton(onClick = { }) {
+                Icon(
+                    imageVector = Icons.Rounded.Menu,
+                    contentDescription = stringResource(R.string.menu)
+                )
+            }
+        }
     )
 }

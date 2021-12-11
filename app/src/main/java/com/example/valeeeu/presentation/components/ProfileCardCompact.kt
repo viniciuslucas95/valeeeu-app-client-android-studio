@@ -4,6 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Circle
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,7 +41,7 @@ private fun ProfileCardCompactContent(profile: SummarizedProfile) {
     ) {
         Box {
             FavoriteButton(
-                isFavorited = profile.isFavorited,
+                isFavorite = profile.isFavorited,
                 modifier = Modifier.align(alignment = Alignment.TopEnd)
             )
 
@@ -94,7 +97,7 @@ private fun RatingDistanceAndPrice(rating: Float, distance: Float, price: Float)
             .padding(end = 16.dp)
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_rating_full),
+            imageVector = Icons.Rounded.Star,
             contentDescription = null,
             tint = Yellow,
             modifier = Modifier
@@ -116,7 +119,7 @@ private fun RatingDistanceAndPrice(rating: Float, distance: Float, price: Float)
         Spacer(modifier = Modifier.width(8.dp))
 
         Icon(
-            painter = painterResource(id = R.drawable.ic_circle),
+            imageVector = Icons.Rounded.Circle,
             contentDescription = null,
             modifier = Modifier
                 .size(2.dp)
@@ -138,7 +141,7 @@ private fun RatingDistanceAndPrice(rating: Float, distance: Float, price: Float)
         Spacer(modifier = Modifier.width(8.dp))
 
         Icon(
-            painter = painterResource(id = R.drawable.ic_circle),
+            imageVector = Icons.Rounded.Circle,
             contentDescription = null,
             modifier = Modifier
                 .size(2.dp)

@@ -9,13 +9,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun Category(
-    drawableId: Int,
+    icon: ImageVector,
     onClick: () -> Unit,
     label: String,
     contentDescription: String?,
@@ -24,7 +25,7 @@ fun Category(
     val interactionSource = remember { MutableInteractionSource() }
 
     CategoryContent(
-        drawableId = drawableId,
+        icon = icon,
         onClick = onClick,
         label = label,
         contentDescription = contentDescription,
@@ -36,7 +37,7 @@ fun Category(
 
 @Composable
 private fun CategoryContent(
-    drawableId: Int,
+    icon: ImageVector,
     onClick: () -> Unit,
     label: String,
     contentDescription: String?,
@@ -54,7 +55,7 @@ private fun CategoryContent(
             modifier = Modifier.width(width = 72.dp)
         ) {
             IconButton(
-                drawableId = drawableId,
+                icon = icon,
                 onClick = { onClick() },
                 interactionSource = interactionSource,
                 backgroundColor = MaterialTheme.colors.surface,

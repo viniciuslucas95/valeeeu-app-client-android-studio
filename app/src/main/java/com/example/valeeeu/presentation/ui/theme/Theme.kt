@@ -11,8 +11,8 @@ private val DarkColorPalette = darkColors(
     primaryVariant = Blue700,
     secondary = Blue700,
 
-    background = Black,
-    surface = Black,
+    background = BlackDark,
+    surface = BlackDark,
     onPrimary = White,
     onSecondary = White,
     onBackground = White,

@@ -8,14 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun IconButton(
     modifier: Modifier = Modifier,
-    drawableId: Int,
+    icon: ImageVector,
     onClick: () -> Unit,
     backgroundColor: Color = Color.Transparent,
     disabledBackgroundColor: Color = Color.Transparent,
@@ -51,9 +51,7 @@ fun IconButton(
         modifier = modifier
     ) {
         Icon(
-            painter = painterResource(
-                id = drawableId
-            ),
+            imageVector = icon,
             contentDescription = contentDescription
         )
     }

@@ -5,11 +5,17 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Circle
+import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material.icons.rounded.StarBorder
+import androidx.compose.material.icons.rounded.StarHalf
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.LastBaseline
 import androidx.compose.ui.platform.LocalConfiguration
@@ -91,7 +97,7 @@ private fun PictureAndPrice(size: ProfileCardSize, profile: SummarizedProfile) {
 private fun Info(size: ProfileCardSize, profile: SummarizedProfile) {
     Box {
         FavoriteButton(
-            isFavorited = profile.isFavorited,
+            isFavorite = profile.isFavorited,
             modifier = Modifier.align(alignment = Alignment.TopEnd)
         )
 
@@ -148,7 +154,7 @@ private fun RatingAndDistance(rating: Float, distance: Float) {
             .padding(end = 16.dp)
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_rating_full),
+            imageVector = Icons.Rounded.Star,
             contentDescription = null,
             tint = Yellow,
             modifier = Modifier
@@ -158,7 +164,7 @@ private fun RatingAndDistance(rating: Float, distance: Float) {
 
         for (i in 2..5) {
             Icon(
-                painter = painterResource(id = getRatingIconId(rating, i.toFloat())),
+                imageVector = getRatingIconId(rating, i.toFloat()),
                 contentDescription = null,
                 tint = Yellow,
                 modifier = Modifier
@@ -181,7 +187,7 @@ private fun RatingAndDistance(rating: Float, distance: Float) {
         Spacer(modifier = Modifier.width(8.dp))
 
         Icon(
-            painter = painterResource(id = R.drawable.ic_circle),
+            imageVector = Icons.Rounded.Circle,
             contentDescription = null,
             modifier = Modifier
                 .size(2.dp)
@@ -216,11 +222,11 @@ private fun getHeight(size: ProfileCardSize): Dp {
     }
 }
 
-private fun getRatingIconId(rating: Float, range: Float): Int {
+private fun getRatingIconId(rating: Float, range: Float): ImageVector {
     return when (rating) {
-        in range..Float.MAX_VALUE -> R.drawable.ic_rating_full
-        in range - 0.5f..range -> R.drawable.ic_rating_half
-        else -> R.drawable.ic_rating_empty
+        in range..Float.MAX_VALUE -> Icons.Rounded.Star
+        in range - 0.5f..range -> Icons.Rounded.StarHalf
+        else -> Icons.Rounded.StarBorder
     }
 }
 
