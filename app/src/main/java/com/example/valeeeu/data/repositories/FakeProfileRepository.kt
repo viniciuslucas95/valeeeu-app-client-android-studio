@@ -25,7 +25,7 @@ class FakeProfileRepository : IProfileRepository {
                     job = "Barbearia",
                     averageRating = 3.7f,
                     distance = 800f,
-                    isFavorited = true,
+                    isFavorite = true,
                     lowestPrice = 9.90f,
                     picture = "123",
                     description = if (includeDescription) "Cortamos todos os tipos de cabelo, desde os mais modernos até os mais tradicionais. Conosco você sempre esta na moda, venha conferir!" else null

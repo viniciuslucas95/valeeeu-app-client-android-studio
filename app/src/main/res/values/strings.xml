@@ -1,16 +1,24 @@
 <resources>
     <string name="app_name">valeeeu!</string>
-    <string name="technology">Tecnologia</string>
+
+    <!-- Buttons -->
+    <string name="see_more">Ver Mais</string>
+
+    <!-- Subtitles -->
+    <string name="suggestions">Recomendados</string>
     <string name="categories">Categorias</string>
     <string name="highlights">Destaques</string>
-    <string name="see_more">Ver Mais</string>
+
+    <!-- Icons -->
+    <string name="technology">Tecnologia</string>
     <string name="vehicles">Veículos</string>
-    <string name="works_and_renovations">Obras e Reformas</string>
-    <string name="beauty_and_fashion">Beleza e Moda</string>
+    <string name="works_and_renovations_first_line">Obras e</string>
+    <string name="works_and_renovations_second_line">Reformas</string>
+    <string name="beauty_and_fashion_first_line">Moda e</string>
+    <string name="beauty_and_fashion_second_line">Beleza</string>
     <string name="sales">Vendas</string>
-    <string name="suggestions">Recomendados</string>
-    <string name="budget">Orçamento</string>
-    <string name="from_price">A partir de</string>
+
+    <!-- Top App Bar -->
     <string name="menu">Menu</string>
 
     <!-- Bottom App Bar -->
@@ -18,4 +26,8 @@
     <string name="search">Procurar</string>
     <string name="messages">Mensagens</string>
     <string name="profile">Perfil</string>
+
+    <!-- Others -->
+    <string name="budget">Orçamento</string>
+    <string name="from_price">A partir de</string>
 </resources>

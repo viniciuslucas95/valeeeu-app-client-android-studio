@@ -41,7 +41,7 @@ private fun ProfileCardCompactContent(profile: SummarizedProfile) {
     ) {
         Box {
             FavoriteButton(
-                isFavorite = profile.isFavorited,
+                isFavorite = profile.isFavorite,
                 modifier = Modifier.align(alignment = Alignment.TopEnd)
             )
 

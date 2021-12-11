@@ -177,14 +177,16 @@ private fun TopBar() {
         title = {
             Text(
                 text = stringResource(R.string.home),
-                style = MaterialTheme.typography.h6
+                style = MaterialTheme.typography.h6,
+                modifier = Modifier.alpha(alpha = ContentAlpha.high)
             )
         },
         navigationIcon = {
             IconButton(onClick = { }) {
                 Icon(
                     imageVector = Icons.Rounded.Menu,
-                    contentDescription = stringResource(R.string.menu)
+                    contentDescription = stringResource(R.string.menu),
+                    modifier = Modifier.alpha(alpha = ContentAlpha.high)
                 )
             }
         }

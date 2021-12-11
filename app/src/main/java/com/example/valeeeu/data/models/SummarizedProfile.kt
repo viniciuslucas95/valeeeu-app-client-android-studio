@@ -6,7 +6,7 @@ data class SummarizedProfile(
     val job: String,
     val averageRating: Float,
     val distance: Float,
-    val isFavorited: Boolean,
+    val isFavorite: Boolean,
     val lowestPrice: Float,
     val picture: String?,
     val description: String?,

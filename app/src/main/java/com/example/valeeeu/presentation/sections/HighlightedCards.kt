@@ -140,13 +140,19 @@ private fun TitleAndSeeMoreButton(profiles: List<SummarizedProfile>) {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        CustomTextButton(
-            text = stringResource(R.string.see_more),
-            enabled = profiles.isNotEmpty(),
+        TextButton(
             onClick = { },
+            enabled = profiles.isNotEmpty(),
             modifier = Modifier
                 .alignBy(LastBaseline)
-        )
+                .padding(end = 8.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.see_more),
+                style = MaterialTheme.typography.button,
+                maxLines = 1
+            )
+        }
     }
 }
 

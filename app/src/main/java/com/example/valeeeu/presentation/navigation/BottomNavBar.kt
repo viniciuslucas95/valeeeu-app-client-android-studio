@@ -1,12 +1,13 @@
 package com.example.valeeeu.presentation.navigation
 
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -22,8 +23,9 @@ fun BottomNavBar(navController: NavController) {
 
         navItems.forEach { screen ->
             BottomNavigationItem(
+                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                 selectedContentColor = MaterialTheme.colors.primary,
-                unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
+                unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium),
                 onClick = { },
                 icon = {
                     Icon(
@@ -34,13 +36,11 @@ fun BottomNavBar(navController: NavController) {
                 label = {
                     Text(
                         text = stringResource(id = screen.label),
-                        style = MaterialTheme.typography.caption,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.alpha(alpha = ContentAlpha.medium)
+                        modifier = Modifier.requiredWidth(width = 72.dp)
                     )
-                },
-                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
+                }
             )
         }
     }

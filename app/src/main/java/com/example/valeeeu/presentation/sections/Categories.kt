@@ -2,12 +2,14 @@ package com.example.valeeeu.presentation.sections
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -30,6 +32,7 @@ private fun CategoriesContent() {
             modifier = Modifier
                 .paddingFromBaseline(bottom = 12.dp)
                 .padding(horizontal = 16.dp)
+                .alpha(ContentAlpha.high)
         )
 
         LazyRow(contentPadding = PaddingValues(horizontal = 16.dp)) {
@@ -38,7 +41,7 @@ private fun CategoriesContent() {
                     icon = Icons.Rounded.Devices,
                     onClick = { },
                     contentDescription = stringResource(R.string.technology),
-                    label = stringResource(R.string.technology)
+                    firstLine = stringResource(R.string.technology)
                 )
             }
 
@@ -51,7 +54,7 @@ private fun CategoriesContent() {
                     icon = Icons.Rounded.DirectionsCar,
                     onClick = { },
                     contentDescription = stringResource(R.string.vehicles),
-                    label = stringResource(R.string.vehicles)
+                    firstLine = stringResource(R.string.vehicles)
                 )
             }
 
@@ -60,12 +63,15 @@ private fun CategoriesContent() {
             }
 
             item {
+                val firstLine = stringResource(R.string.works_and_renovations_first_line)
+                val secondLine = stringResource(R.string.works_and_renovations_second_line)
+
                 Category(
                     icon = Icons.Rounded.Handyman,
                     onClick = { },
-                    contentDescription = stringResource(R.string.works_and_renovations),
-                    label = stringResource(R.string.works_and_renovations),
-                    maxLines = 2
+                    contentDescription = "$firstLine $secondLine",
+                    firstLine = firstLine,
+                    secondLine = secondLine
                 )
             }
 
@@ -74,12 +80,15 @@ private fun CategoriesContent() {
             }
 
             item {
+                val firstLine = stringResource(R.string.beauty_and_fashion_first_line)
+                val secondLine = stringResource(R.string.beauty_and_fashion_second_line)
+
                 Category(
                     icon = Icons.Rounded.FaceRetouchingNatural,
                     onClick = { },
-                    contentDescription = stringResource(R.string.beauty_and_fashion),
-                    label = stringResource(R.string.beauty_and_fashion),
-                    maxLines = 2
+                    contentDescription = "$firstLine $secondLine",
+                    firstLine = firstLine,
+                    secondLine = secondLine
                 )
             }
 
@@ -92,7 +101,7 @@ private fun CategoriesContent() {
                     icon = Icons.Rounded.ShoppingBag,
                     onClick = { },
                     contentDescription = stringResource(R.string.sales),
-                    label = stringResource(R.string.sales)
+                    firstLine = stringResource(R.string.sales)
                 )
             }
         }

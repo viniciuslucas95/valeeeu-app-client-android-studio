@@ -3,12 +3,12 @@ package com.example.valeeeu.presentation.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -18,18 +18,18 @@ import androidx.compose.ui.unit.dp
 fun Category(
     icon: ImageVector,
     onClick: () -> Unit,
-    label: String,
-    contentDescription: String?,
-    maxLines: Int = 1
+    firstLine: String,
+    secondLine: String = "",
+    contentDescription: String?
 ) {
     val interactionSource = remember { MutableInteractionSource() }
 
     CategoryContent(
         icon = icon,
         onClick = onClick,
-        label = label,
+        firstLine = firstLine,
+        secondLine = secondLine,
         contentDescription = contentDescription,
-        maxLines = maxLines,
         interactionSource = interactionSource
     )
 }
@@ -39,9 +39,9 @@ fun Category(
 private fun CategoryContent(
     icon: ImageVector,
     onClick: () -> Unit,
-    label: String,
+    firstLine: String,
+    secondLine: String = "",
     contentDescription: String?,
-    maxLines: Int = 1,
     interactionSource: MutableInteractionSource
 ) {
     Surface(
@@ -54,27 +54,43 @@ private fun CategoryContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.width(width = 72.dp)
         ) {
-            IconButton(
-                icon = icon,
+            Button(
                 onClick = { onClick() },
                 interactionSource = interactionSource,
-                backgroundColor = MaterialTheme.colors.surface,
-                color = MaterialTheme.colors.primary,
-                modifier = Modifier
-                    .defaultMinSize(minWidth = 48.dp, minHeight = 48.dp)
-                    .padding(top = 4.dp),
-                contentDescription = contentDescription
-            )
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = MaterialTheme.colors.surface,
+                    disabledBackgroundColor = MaterialTheme.colors.surface,
+                    contentColor = MaterialTheme.colors.primary,
+                    disabledContentColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
+                ),
+                shape = RoundedCornerShape(100),
+                contentPadding = PaddingValues(12.dp),
+                modifier = Modifier.defaultMinSize(minWidth = 48.dp, minHeight = 48.dp)
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = contentDescription
+                )
+            }
 
             Text(
-                text = label,
-                maxLines = maxLines,
+                text = firstLine,
+                maxLines = 1,
                 textAlign = TextAlign.Center,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.subtitle2,
-                modifier = Modifier
-                    .alpha(alpha = ContentAlpha.medium)
-                    .paddingFromBaseline(top = 24.dp, bottom = 8.dp)
+                color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
+                modifier = Modifier.paddingFromBaseline(top = 24.dp)
+            )
+
+            Text(
+                text = secondLine,
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.subtitle2,
+                color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
+                modifier = Modifier.paddingFromBaseline(bottom = 8.dp)
             )
         }
     }
