@@ -123,15 +123,24 @@ private fun HomeScreenContent(
     }
 }
 
+private const val BOTTOM_NAV_TAB_HEIGHT = 56
+
 @Composable
 private fun EmptySuggestedListCircularProgressIndicator() {
+    val paddingBottom = BOTTOM_NAV_TAB_HEIGHT.dp + 16.dp
+    val height = PROFILE_CARD_COMPACT_HEIGHT.dp + paddingBottom
+
     Row(
-        modifier = Modifier.height(height = PROFILE_CARD_COMPACT_HEIGHT.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier = Modifier.height(height = height),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Spacer(modifier = Modifier.weight(1f))
 
-        CircularProgressIndicator()
+        Column {
+            CircularProgressIndicator()
+
+            Spacer(modifier = Modifier.height(height = paddingBottom))
+        }
 
         Spacer(modifier = Modifier.weight(1f))
     }
@@ -139,7 +148,7 @@ private fun EmptySuggestedListCircularProgressIndicator() {
 
 @Composable
 private fun SuggestedListCircularProgressIndicator() {
-    Row(modifier = Modifier.padding(top = 16.dp)) {
+    Row(modifier = Modifier.padding(top = 16.dp, bottom = BOTTOM_NAV_TAB_HEIGHT.dp)) {
         Spacer(modifier = Modifier.weight(1f))
 
         CircularProgressIndicator()
