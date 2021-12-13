@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -27,11 +28,11 @@ fun HighlightedCards(
     ) -> Unit
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val profiles = remember { mutableStateOf(listOf<SummarizedProfile>()) }
+    val profiles = rememberSaveable { mutableStateOf(listOf<SummarizedProfile>()) }
     val maxCardsInScreen =
         remember { ceil(screenWidth / PROFILE_CARD_NORMAL_WIDTH.dp).toInt() }
     val listState = rememberLazyListState()
-    val isFetching = remember { mutableStateOf(false) }
+    val isFetching = rememberSaveable { mutableStateOf(false) }
 
     if (listState.onEndReached(maxCardsInScreen) && !isFetching.value) {
         isFetching.value = true

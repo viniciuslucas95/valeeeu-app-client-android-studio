@@ -11,6 +11,7 @@ import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -34,11 +35,11 @@ import kotlin.math.ceil
 @Composable
 fun HomeScreen(navController: NavController, viewModel: HomeViewModel = homeViewModelFactory()) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val suggestedProfiles = remember { mutableStateOf(listOf<SummarizedProfile>()) }
+    val suggestedProfiles = rememberSaveable { mutableStateOf(listOf<SummarizedProfile>()) }
     val maxVerticalCardsInScreen =
         remember { ceil(screenHeight / PROFILE_CARD_COMPACT_HEIGHT.dp).toInt() }
     val suggestedListState = rememberLazyListState()
-    val isSuggestedListFetching = remember { mutableStateOf(false) }
+    val isSuggestedListFetching = rememberSaveable { mutableStateOf(false) }
 
     if (suggestedListState.onEndReached(maxVerticalCardsInScreen) && !isSuggestedListFetching.value) {
         isSuggestedListFetching.value = true

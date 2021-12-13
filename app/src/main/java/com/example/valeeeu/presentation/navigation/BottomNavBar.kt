@@ -26,7 +26,9 @@ fun BottomNavBar(navController: NavController) {
                 selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                 selectedContentColor = MaterialTheme.colors.primary,
                 unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium),
-                onClick = { },
+                onClick = {
+                    navController.navigate(screen.route) { launchSingleTop = true }
+                },
                 icon = {
                     Icon(
                         imageVector = screen.icon,
