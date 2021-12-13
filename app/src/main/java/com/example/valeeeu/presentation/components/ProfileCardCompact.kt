@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.LastBaseline
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -45,16 +46,20 @@ private fun ProfileCardCompactContent(profile: SummarizedProfile) {
                 modifier = Modifier.align(alignment = Alignment.TopEnd)
             )
 
+            val fontScale = LocalConfiguration.current.fontScale - 1
+            val adjust = if (fontScale > 0) fontScale * 0.5f + 1 else 1f
+
             Row {
                 Image(
                     // Change to get picture from string
                     painter = painterResource(id = R.drawable.barber_shop),
                     contentDescription = null,
                     modifier = Modifier
-                        .width(width = PROFILE_CARD_COMPACT_HEIGHT.dp)
-                        .height(height = PROFILE_CARD_COMPACT_HEIGHT.dp),
+                        .width(width = PROFILE_CARD_COMPACT_HEIGHT.dp * adjust)
+                        .height(height = PROFILE_CARD_COMPACT_HEIGHT.dp* adjust),
                     contentScale = ContentScale.Crop
                 )
+
                 Column(modifier = Modifier.padding(start = 16.dp)) {
                     Text(
                         text = profile.job,
@@ -111,6 +116,7 @@ private fun RatingDistanceAndPrice(rating: Float, distance: Float, price: Float)
             text = formatRatingText(rating),
             style = MaterialTheme.typography.caption,
             maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .alpha(ContentAlpha.disabled)
                 .alignBy(LastBaseline)
@@ -133,6 +139,7 @@ private fun RatingDistanceAndPrice(rating: Float, distance: Float, price: Float)
             text = formatDistanceText(distance),
             style = MaterialTheme.typography.caption,
             maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .alpha(ContentAlpha.disabled)
                 .alignBy(LastBaseline)
@@ -159,6 +166,7 @@ private fun RatingDistanceAndPrice(rating: Float, distance: Float, price: Float)
             ),
             style = MaterialTheme.typography.caption,
             maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .alpha(ContentAlpha.disabled)
                 .alignBy(LastBaseline)

@@ -150,7 +150,8 @@ private fun TitleAndSeeMoreButton(profiles: List<SummarizedProfile>) {
             Text(
                 text = stringResource(R.string.see_more),
                 style = MaterialTheme.typography.button,
-                maxLines = 1
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
         }
     }

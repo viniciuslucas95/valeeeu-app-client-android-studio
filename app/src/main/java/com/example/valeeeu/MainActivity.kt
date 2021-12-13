@@ -5,10 +5,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.valeeeu.presentation.screens.HomeScreen
+import com.example.valeeeu.presentation.navigation.Navigation
 import com.example.valeeeu.presentation.ui.theme.ValeeeuTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,13 +15,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ValeeeuTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    val navController = rememberNavController()
-
-                    NavHost(navController = navController, startDestination = "home") {
-                        composable("home") {
-                            HomeScreen(navController = navController)
-                        }
-                    }
+                    Navigation()
                 }
             }
         }

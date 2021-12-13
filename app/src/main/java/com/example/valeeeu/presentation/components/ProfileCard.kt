@@ -44,11 +44,12 @@ fun ProfileCard(size: ProfileCardSize = ProfileCardSize.NORMAL, profile: Summari
 
 @Composable
 private fun ProfileCardContent(size: ProfileCardSize, profile: SummarizedProfile) {
-    val fontScale = LocalConfiguration.current.fontScale
+    val fontScale = LocalConfiguration.current.fontScale - 1
+    val adjust = if (fontScale > 0) fontScale * 0.5f + 1 else 1f
 
     Card(
         modifier = Modifier
-            .width(width = getWidth(size) * fontScale)
+            .width(width = getWidth(size) * adjust)
             .clickable { }
     ) {
         Column {
