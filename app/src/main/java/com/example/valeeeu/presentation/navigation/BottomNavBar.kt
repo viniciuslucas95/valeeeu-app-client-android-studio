@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.valeeeu.presentation.navigation.Screen.*
+import com.example.valeeeu.presentation.navigation.Tab.*
 
 private val navItems = listOf(Home, Search, Messages, Profile)
 

@@ -9,14 +9,14 @@ import androidx.compose.material.icons.rounded.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.valeeeu.R
 
-sealed class Screen(val route: String, @StringRes val label: Int, val icon: ImageVector) {
-    object Home : Screen(route = "home", label = R.string.home, icon = Icons.Rounded.Home)
+sealed class Tab(val route: String, @StringRes val label: Int, val icon: ImageVector) {
+    object Home : Tab(route = "home-tab", label = R.string.home, icon = Icons.Rounded.Home)
     object Search :
-        Screen(route = "search", label = R.string.search, icon = Icons.Rounded.Search)
+        Tab(route = "search-tab", label = R.string.search, icon = Icons.Rounded.Search)
 
     object Messages :
-        Screen(route = "messages", label = R.string.messages, icon = Icons.Rounded.Chat)
+        Tab(route = "messages-tab", label = R.string.messages, icon = Icons.Rounded.Chat)
 
     object Profile :
-        Screen(route = "profile", label = R.string.profile, icon = Icons.Rounded.Person)
+        Tab(route = "profile-tab", label = R.string.profile, icon = Icons.Rounded.Person)
 }

@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.valeeeu.R
-import com.example.valeeeu.data.models.SummarizedProfile
+import com.example.valeeeu.data.models.Profile
 import com.example.valeeeu.logic.formatters.formatDistanceText
 import com.example.valeeeu.logic.formatters.formatPriceText
 import com.example.valeeeu.logic.formatters.formatRatingText
@@ -28,12 +28,12 @@ import com.example.valeeeu.presentation.ui.theme.Yellow
 const val PROFILE_CARD_COMPACT_HEIGHT = 84
 
 @Composable
-fun ProfileCardCompact(profile: SummarizedProfile) {
+fun ProfileCardCompact(profile: Profile) {
     ProfileCardCompactContent(profile)
 }
 
 @Composable
-private fun ProfileCardCompactContent(profile: SummarizedProfile) {
+private fun ProfileCardCompactContent(profile: Profile) {
     Card(
         modifier = Modifier
             .padding(horizontal = 16.dp)

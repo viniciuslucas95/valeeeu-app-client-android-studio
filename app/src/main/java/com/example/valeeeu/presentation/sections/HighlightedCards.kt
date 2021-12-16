@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.valeeeu.R
-import com.example.valeeeu.data.models.SummarizedProfile
+import com.example.valeeeu.data.models.Profile
 import com.example.valeeeu.presentation.components.*
 import kotlin.math.ceil
 
@@ -24,11 +24,12 @@ fun HighlightedCards(
         limit: Int,
         offset: Int,
         includeDescription: Boolean,
-        callback: (List<SummarizedProfile>) -> Unit
-    ) -> Unit
+        callback: (List<Profile>) -> Unit
+    ) -> Unit,
+    navigate: (route: String) -> Unit
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val profiles = rememberSaveable { mutableStateOf(listOf<SummarizedProfile>()) }
+    val profiles = rememberSaveable { mutableStateOf(listOf<Profile>()) }
     val maxCardsInScreen =
         remember { ceil(screenWidth / PROFILE_CARD_NORMAL_WIDTH.dp).toInt() }
     val listState = rememberLazyListState()
@@ -53,15 +54,17 @@ fun HighlightedCards(
     HighlightedCardsContent(
         profiles = profiles.value,
         listState = listState,
-        isFetching = isFetching.value
+        isFetching = isFetching.value,
+        navigate = navigate
     )
 }
 
 @Composable
 private fun HighlightedCardsContent(
-    profiles: List<SummarizedProfile>,
+    profiles: List<Profile>,
     listState: LazyListState,
-    isFetching: Boolean
+    isFetching: Boolean,
+    navigate: (route: String) -> Unit
 ) {
     Column(
         modifier = Modifier.paddingFromBaseline(top = 40.dp)
@@ -78,7 +81,10 @@ private fun HighlightedCardsContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             itemsIndexed(profiles, key = { _, profile -> profile.username }) { index, profile ->
-                Card(isNotLast = index < profiles.size - 1, profile = profile)
+                Card(
+                    isNotLast = index < profiles.size - 1,
+                    profile = profile,
+                    onCardClick = { navigate("profile-screen?username=${profile.username}") })
             }
 
             if (isFetching && profiles.isNotEmpty()) {
@@ -126,7 +132,7 @@ private fun EmptyCardForMeasurement() {
 }
 
 @Composable
-private fun TitleAndSeeMoreButton(profiles: List<SummarizedProfile>) {
+private fun TitleAndSeeMoreButton(profiles: List<Profile>) {
     Row(modifier = Modifier.paddingFromBaseline(bottom = 16.dp)) {
         Text(
             text = stringResource(R.string.highlights),
@@ -171,8 +177,8 @@ private fun EmptyListCircularProgressIndicator() {
 }
 
 @Composable
-private fun Card(isNotLast: Boolean, profile: SummarizedProfile) {
-    ProfileCard(profile = profile, size = ProfileCardSize.NORMAL)
+private fun Card(isNotLast: Boolean, profile: Profile, onCardClick: () -> Unit) {
+    ProfileCard(profile = profile, size = ProfileCardSize.NORMAL, onCardClick = onCardClick)
 
     if (isNotLast) {
         Spacer(modifier = Modifier.width(width = 16.dp))

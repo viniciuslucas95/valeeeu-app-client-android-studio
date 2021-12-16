@@ -26,7 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.valeeeu.R
-import com.example.valeeeu.data.models.SummarizedProfile
+import com.example.valeeeu.data.models.Profile
 import com.example.valeeeu.logic.formatters.formatDistanceText
 import com.example.valeeeu.logic.formatters.formatPriceText
 import com.example.valeeeu.logic.formatters.formatRatingText
@@ -38,19 +38,27 @@ const val PROFILE_CARD_BIG_WIDTH = 312
 const val PROFILE_CARD_NORMAL_WIDTH = 224
 
 @Composable
-fun ProfileCard(size: ProfileCardSize = ProfileCardSize.NORMAL, profile: SummarizedProfile) {
-    ProfileCardContent(size = size, profile = profile)
+fun ProfileCard(
+    size: ProfileCardSize = ProfileCardSize.NORMAL,
+    profile: Profile,
+    onCardClick: () -> Unit
+) {
+    ProfileCardContent(size = size, profile = profile, onCardClick = onCardClick)
 }
 
 @Composable
-private fun ProfileCardContent(size: ProfileCardSize, profile: SummarizedProfile) {
+private fun ProfileCardContent(
+    size: ProfileCardSize,
+    profile: Profile,
+    onCardClick: () -> Unit
+) {
     val fontScale = LocalConfiguration.current.fontScale - 1
     val adjust = if (fontScale > 0) fontScale * 0.5f + 1 else 1f
 
     Card(
         modifier = Modifier
             .width(width = getWidth(size) * adjust)
-            .clickable { }
+            .clickable { onCardClick() }
     ) {
         Column {
             PictureAndPrice(size, profile)
@@ -61,7 +69,7 @@ private fun ProfileCardContent(size: ProfileCardSize, profile: SummarizedProfile
 }
 
 @Composable
-private fun PictureAndPrice(size: ProfileCardSize, profile: SummarizedProfile) {
+private fun PictureAndPrice(size: ProfileCardSize, profile: Profile) {
     Box {
         Image(
             // Change to get picture from string
@@ -95,7 +103,7 @@ private fun PictureAndPrice(size: ProfileCardSize, profile: SummarizedProfile) {
 }
 
 @Composable
-private fun Info(size: ProfileCardSize, profile: SummarizedProfile) {
+private fun Info(size: ProfileCardSize, profile: Profile) {
     Box {
         FavoriteButton(
             isFavorite = profile.isFavorite,

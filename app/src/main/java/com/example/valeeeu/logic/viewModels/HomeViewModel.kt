@@ -2,7 +2,7 @@ package com.example.valeeeu.logic.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.valeeeu.data.models.SummarizedProfile
+import com.example.valeeeu.data.models.Profile
 import com.example.valeeeu.data.repositories.IProfileRepository
 import kotlinx.coroutines.launch
 
@@ -13,7 +13,7 @@ class HomeViewModel(
         limit: Int = 10,
         offset: Int = 0,
         includeDescription: Boolean = true,
-        callback: (List<SummarizedProfile>) -> Unit
+        callback: (List<Profile>) -> Unit
     ) {
         viewModelScope.launch {
             val profiles =

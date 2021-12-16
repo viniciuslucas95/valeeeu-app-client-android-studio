@@ -1,6 +1,6 @@
 package com.example.valeeeu.data.models
 
-data class SummarizedProfile(
+data class Profile(
     val username: String,
     val name: String,
     val job: String,

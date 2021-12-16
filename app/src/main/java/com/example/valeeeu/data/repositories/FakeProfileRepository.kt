@@ -1,6 +1,6 @@
 package com.example.valeeeu.data.repositories
 
-import com.example.valeeeu.data.models.SummarizedProfile
+import com.example.valeeeu.data.models.Profile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -12,14 +12,14 @@ class FakeProfileRepository : IProfileRepository {
         limit: Int,
         offset: Int,
         includeDescription: Boolean
-    ): List<SummarizedProfile> {
+    ): List<Profile> {
         return withContext(Dispatchers.IO) {
             delay(1000)
 
-            val list = mutableListOf<SummarizedProfile>()
+            val list = mutableListOf<Profile>()
 
             for (i in 0 until limit) {
-                val profile = SummarizedProfile(
+                val profile = Profile(
                     username = "barbearia.carlos$count",
                     name = "Carlos Antônio",
                     job = "Barbearia",
