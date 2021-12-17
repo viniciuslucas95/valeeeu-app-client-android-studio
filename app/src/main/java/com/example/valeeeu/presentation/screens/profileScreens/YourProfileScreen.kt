@@ -1,4 +1,4 @@
-package com.example.valeeeu.presentation.screens
+package com.example.valeeeu.presentation.screens.profileScreens
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -9,26 +9,24 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.valeeeu.R
-import com.example.valeeeu.data.models.Profile
 
 @Composable
-fun ProfileScreen(
-    navController: NavController,
-    profileType: ProfileType = ProfileType.OTHER,
+fun YourProfileScreen(
+    navController: NavController
 ) {
-    ProfileScreenContent(
+    YourProfileScreenContent(
         goBack = navController::popBackStack,
     )
 }
 
 @Composable
-private fun ProfileScreenContent(
+private fun YourProfileScreenContent(
     goBack: () -> Unit
 ) {
     Scaffold(
         topBar = {
             TopBar(
-                title = "Test",
+                title = "Your Profile",
                 goBack = goBack
             )
         }
@@ -57,8 +55,4 @@ private fun TopBar(
             }
         }
     )
-}
-
-enum class ProfileType {
-    YOURS, OTHER
 }

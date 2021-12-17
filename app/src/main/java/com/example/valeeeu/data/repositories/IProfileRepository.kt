@@ -1,11 +1,10 @@
 package com.example.valeeeu.data.repositories
 
-import com.example.valeeeu.data.models.Profile
+import com.example.valeeeu.data.models.SummarizedProfile
 
 interface IProfileRepository {
-    suspend fun getSummarizedProfiles(
+    suspend fun getProfiles(
         limit: Int,
-        offset: Int,
-        includeDescription:Boolean = true
-    ): List<Profile>
+        offset: Int
+    ): List<SummarizedProfile>
 }

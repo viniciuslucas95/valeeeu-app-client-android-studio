@@ -21,12 +21,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.valeeeu.R
-import com.example.valeeeu.data.models.Profile
+import com.example.valeeeu.data.models.SummarizedProfile
 import com.example.valeeeu.logic.viewModels.HomeViewModel
 import com.example.valeeeu.presentation.navigation.BottomNavBar
-import com.example.valeeeu.presentation.components.PROFILE_CARD_COMPACT_HEIGHT
-import com.example.valeeeu.presentation.components.ProfileCardCompact
 import com.example.valeeeu.presentation.components.onEndReached
+import com.example.valeeeu.presentation.components.profileCards.PROFILE_CARD_COMPACT_HEIGHT
+import com.example.valeeeu.presentation.components.profileCards.ProfileCardCompact
 import com.example.valeeeu.presentation.sections.Categories
 import com.example.valeeeu.presentation.sections.HighlightedCards
 import com.example.valeeeu.utils.factories.homeViewModelFactory
@@ -35,7 +35,7 @@ import kotlin.math.ceil
 @Composable
 fun HomeScreen(navController: NavController, viewModel: HomeViewModel = homeViewModelFactory()) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-    val suggestedProfiles = rememberSaveable { mutableStateOf(listOf<Profile>()) }
+    val suggestedProfiles = rememberSaveable { mutableStateOf(listOf<SummarizedProfile>()) }
     val maxVerticalCardsInScreen =
         remember { ceil(screenHeight / PROFILE_CARD_COMPACT_HEIGHT.dp).toInt() }
     val suggestedListState = rememberLazyListState()
@@ -47,10 +47,9 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = homeView
         val fetchAmount =
             if (suggestedProfiles.value.isEmpty()) maxVerticalCardsInScreen * 2 else maxVerticalCardsInScreen
 
-        viewModel.onFetchProfile(
+        viewModel.onFetchProfiles(
             fetchAmount,
-            suggestedProfiles.value.size,
-            false
+            suggestedProfiles.value.size
         ) {
             suggestedProfiles.value = suggestedProfiles.value + it
 
@@ -71,7 +70,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = homeView
 private fun HomeScreenContent(
     navController: NavController,
     viewModel: HomeViewModel,
-    suggestedProfiles: List<Profile>,
+    suggestedProfiles: List<SummarizedProfile>,
     suggestedListState: LazyListState,
     isSuggestedListFetching: Boolean
 ) {
@@ -84,7 +83,10 @@ private fun HomeScreenContent(
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
             item {
-                HighlightedCards(fetchProfile = viewModel::onFetchProfile, navController::navigate)
+                HighlightedCards(
+                    fetchProfiles = viewModel::onFetchProfiles,
+                    navigate = navController::navigate
+                )
 
                 Spacer(modifier = Modifier.height(height = 31.dp))
             }
@@ -159,7 +161,7 @@ private fun SuggestedListCircularProgressIndicator() {
 }
 
 @Composable
-private fun SuggestedCard(profile: Profile, isNotLast: Boolean) {
+private fun SuggestedCard(profile: SummarizedProfile, isNotLast: Boolean) {
     ProfileCardCompact(profile = profile)
 
     if (isNotLast) {

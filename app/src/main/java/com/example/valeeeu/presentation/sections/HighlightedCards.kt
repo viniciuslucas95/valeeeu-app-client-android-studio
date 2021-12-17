@@ -13,23 +13,27 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.valeeeu.R
-import com.example.valeeeu.data.models.Profile
+import com.example.valeeeu.data.models.SummarizedProfile
 import com.example.valeeeu.presentation.components.*
+import com.example.valeeeu.presentation.components.profileCards.PROFILE_CARD_NORMAL_HEIGHT
+import com.example.valeeeu.presentation.components.profileCards.PROFILE_CARD_NORMAL_WIDTH
+import com.example.valeeeu.presentation.components.profileCards.ProfileCard
+import com.example.valeeeu.presentation.components.profileCards.ProfileCardSize
 import kotlin.math.ceil
 
 @Composable
 fun HighlightedCards(
-    fetchProfile: (
+    fetchProfiles: (
         limit: Int,
         offset: Int,
-        includeDescription: Boolean,
-        callback: (List<Profile>) -> Unit
+        callback: (List<SummarizedProfile>) -> Unit
     ) -> Unit,
     navigate: (route: String) -> Unit
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val profiles = rememberSaveable { mutableStateOf(listOf<Profile>()) }
+    val profiles = rememberSaveable { mutableStateOf(listOf<SummarizedProfile>()) }
     val maxCardsInScreen =
         remember { ceil(screenWidth / PROFILE_CARD_NORMAL_WIDTH.dp).toInt() }
     val listState = rememberLazyListState()
@@ -40,10 +44,9 @@ fun HighlightedCards(
 
         val fetchAmount = if (profiles.value.isEmpty()) maxCardsInScreen * 2 else maxCardsInScreen
 
-        fetchProfile(
+        fetchProfiles(
             fetchAmount,
-            profiles.value.size,
-            true
+            profiles.value.size
         ) {
             profiles.value = profiles.value + it
 
@@ -61,7 +64,7 @@ fun HighlightedCards(
 
 @Composable
 private fun HighlightedCardsContent(
-    profiles: List<Profile>,
+    profiles: List<SummarizedProfile>,
     listState: LazyListState,
     isFetching: Boolean,
     navigate: (route: String) -> Unit
@@ -84,7 +87,7 @@ private fun HighlightedCardsContent(
                 Card(
                     isNotLast = index < profiles.size - 1,
                     profile = profile,
-                    onCardClick = { navigate("profile-screen?username=${profile.username}") })
+                    onCardClick = { navigate("profile-screen?username=${profile.username}&name=${profile.name}&job=${profile.job}&description=${profile.description}&averageRating=${profile.averageRating}&distance=${profile.distance}&isFavorite=${profile.isFavorite}&picture=${profile.picture}") })
             }
 
             if (isFetching && profiles.isNotEmpty()) {
@@ -132,7 +135,7 @@ private fun EmptyCardForMeasurement() {
 }
 
 @Composable
-private fun TitleAndSeeMoreButton(profiles: List<Profile>) {
+private fun TitleAndSeeMoreButton(profiles: List<SummarizedProfile>) {
     Row(modifier = Modifier.paddingFromBaseline(bottom = 16.dp)) {
         Text(
             text = stringResource(R.string.highlights),
@@ -177,7 +180,7 @@ private fun EmptyListCircularProgressIndicator() {
 }
 
 @Composable
-private fun Card(isNotLast: Boolean, profile: Profile, onCardClick: () -> Unit) {
+private fun Card(isNotLast: Boolean, profile: SummarizedProfile, onCardClick: () -> Unit) {
     ProfileCard(profile = profile, size = ProfileCardSize.NORMAL, onCardClick = onCardClick)
 
     if (isNotLast) {
